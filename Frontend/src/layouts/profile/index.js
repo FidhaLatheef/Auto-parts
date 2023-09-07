@@ -58,30 +58,10 @@ function Overview() {
   const [mobile,setMobile]=useState('');
   const [email,setEmail]=useState('');
   const [location,setLocation]=useState('');
+  const fetchadminProfile=JSON.parse(localStorage.getItem("adminProfile"))
+  const [adminProfile]=useState(fetchadminProfile)  
   const { id } = useParams();
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    // axios.defaults.headers.common['Authorization'] = token;
-     
-    
-    axios.get("http://localhost:8000/admin/profile",{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }) 
-      .then(response => {
-        const userData = response.data;
-        setName(userData.name);
-        setMobile(userData.mobile);
-        setEmail(userData.email);
-        setLocation(userData.location);
-      })
-      .catch(error => {
-        console.error("Error fetching user information:", error);
-      });
 
-    // Rest of your useEffect code...
-  }, []);
   return (
     <DashboardLayout>
       <Header />
@@ -95,10 +75,10 @@ function Overview() {
               title="profile information"
               description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
               info={{
-                fullName: name,
-                mobile: mobile,
-                email:email ,
-                location: location,
+                name: `${adminProfile.name}`,
+                mobile: `${adminProfile.mobile}`,
+                email:`${adminProfile.email}` ,
+                location: `${adminProfile.location}`,
               }}
               social={[
                 {

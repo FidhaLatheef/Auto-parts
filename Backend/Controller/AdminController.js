@@ -40,9 +40,20 @@ module.exports = {
     adminLogin: async (req, res) => {
         const { email, password } = req.body;
         let admin = await adminModel.findOne({email});
+        console.log(admin)
 
         // Compare the provided password with the hashed password from the database
         const isPasswordMatch = await bcrypt.compare(password, admin.password);
+
+        const adminProfile={
+            id:admin._id ,
+            name:admin.name,
+            email:admin.email,
+            mobile:admin.mobile,
+            location:admin.location,
+            image:admin.image,
+            role:admin.role
+        }
 
         if (admin && isPasswordMatch) {
             // Generate a JWT token
@@ -51,7 +62,7 @@ module.exports = {
             admin.save()
             
             // Return the token as a response
-            res.status(200).json({error:false,message:'sucess', token: token });
+            res.status(200).json({error:false,message:'sucess', token: token ,adminProfile:adminProfile});
         } else {
           
             res.status(400).json({ invalid: true, message: 'Invalid credentials' });
@@ -114,6 +125,48 @@ module.exports = {
             console.log('Admin updated successfully');
             console.log(admin);
             res.json({ message: 'Admin updated successfully' });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: 'Error updating admin' });
+        }
+    },
+
+    editProfile: async (req, res) => {
+        const { id } = req.params;
+        const { name, email, mobile, password,location,role } = req.body;
+        console.log(name);
+        try {
+            const admin = await adminModel.findById(id);
+            
+            if (!admin) {
+                return res.status(404).json({ message: 'Admin not found' });
+            }
+            admin.name = name;
+            admin.email = email;
+            admin.mobile = mobile;
+            admin.location =location;
+            admin.role = role;
+            if (password) {
+                admin.password = await bcrypt.hash(password, 10);
+            }
+            if (req.file && req.file.path) {
+                const newImage = req.file.path.replace(/\\/g, '/');
+                admin.image = newImage;
+            }
+            await admin.save();
+            const adminProfile={
+                id:admin._id ,
+                name:admin.name,
+                email:admin.email,
+                mobile:admin.mobile,
+                location:admin.location,
+                image:admin.image,
+                role:admin.role
+            }
+
+            console.log('Admin updated successfully');
+            console.log(admin);
+            res.json({ message: 'Admin updated successfully' ,adminProfile:adminProfile});
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: 'Error updating admin' });

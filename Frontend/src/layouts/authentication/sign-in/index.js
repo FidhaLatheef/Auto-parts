@@ -65,6 +65,7 @@ function SignIn() {
       if(response.data.fieldRequired){
       }else{
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('adminProfile',JSON.stringify(response.data.adminProfile));
         window.location.href='/dashboard'
       }
     })

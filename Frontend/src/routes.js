@@ -47,6 +47,7 @@ import SignUp from "layouts/authentication/sign-up";
 import AdminUsers from "layouts/Admin-Users/index";
 import AddAdmin from "layouts/Admin-Users/data/addAdmin"
 import EditAdmin from "layouts/Admin-Users/data/editAdmin"
+import EditProfile from "layouts/profile/data/editProfile"
 import CategoryManagement from "layouts/categoryManagement/data/category"
 import AddCategory from "layouts/categoryManagement/data/addCategory"
 import EditCategory from "layouts/categoryManagement/data/editCategory"
@@ -119,6 +120,15 @@ const routes = [
     route: "/editAdmin/:id",
     icon: <CustomerSupport size="12px" />,
     component: <EditAdmin />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Edit Profile",
+    key: "edit-profile",
+    route: "/editProfile/:id",
+    icon: <CustomerSupport size="12px" />,
+    component: <EditProfile />,
     noCollapse: true,
   },
   {

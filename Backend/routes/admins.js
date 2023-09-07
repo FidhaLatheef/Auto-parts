@@ -21,6 +21,7 @@ router.get("/adminUsers",verifyToken,adminController.adminUsers)
 router.delete("/delete/:id",verifyToken,adminController.deleteAdmin)
 router.get("/getAdminById/:id",verifyToken,adminController.getAdminById)
 router.put("/editAdmin/:id",verifyToken,upload.single('image'),adminController.editAdmin)
+router.put("/editProfile/:id",verifyToken,upload.single('image'),adminController.editProfile)
 router.post("/Logout",verifyToken,adminController.adminLogout)
 router.get('/profile',verifyToken,adminController.adminProfile)
 

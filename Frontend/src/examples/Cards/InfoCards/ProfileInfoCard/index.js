@@ -8,7 +8,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -32,14 +32,17 @@ import SoftTypography from "components/SoftTypography";
 // Soft UI Dashboard React base styles
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
+import { useState } from "react";
 
 function ProfileInfoCard({ title, description, info, social, action }) {
+  const fetchadminProfile=JSON.parse(localStorage.getItem("adminProfile"))
+  const [adminProfile,setAdminProfile]=useState(fetchadminProfile)
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
   const { size } = typography;
 
-  // Convert this form `objectKey` of the object key in to this `object key`
+  // Convert this form `objectKey` of the object key into this `object key`
   Object.keys(info).forEach((el) => {
     if (el.match(/[A-Z\s]+/)) {
       const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
@@ -83,6 +86,9 @@ function ProfileInfoCard({ title, description, info, social, action }) {
       {icon}
     </SoftBox>
   ));
+  const handleEdit=async(id)=>{
+
+  }
 
   return (
     <Card sx={{ height: "100%" }}>
@@ -90,9 +96,10 @@ function ProfileInfoCard({ title, description, info, social, action }) {
         <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
           {title}
         </SoftTypography>
-        <SoftTypography component={Link} to={action.route} variant="body2" color="secondary">
+        <SoftTypography component={Link} to={`/editProfile/${adminProfile.id}`} variant="body2" color="secondary">
           <Tooltip title={action.tooltip} placement="top">
-            <Icon>edit</Icon>
+            <Icon component={Link}
+            to={`/editProfile/${adminProfile.id}`}>edit</Icon>
           </Tooltip>
         </SoftTypography>
       </SoftBox>
@@ -126,7 +133,7 @@ ProfileInfoCard.propTypes = {
   info: PropTypes.objectOf(PropTypes.string).isRequired,
   social: PropTypes.arrayOf(PropTypes.object).isRequired,
   action: PropTypes.shape({
-    route: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired, // Assuming id is a string, adjust the type if necessary
     tooltip: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -141,34 +141,6 @@ function Home() {
                 </div>
             </section>
             {/* Services Section End */}
-            <section >
-                <div className={Styles.productcontainer}>
-                    <Row className="row">
-                        <div className="col-lg-12">
-                            <div className={Styles.sectiontitle}>
-                                <span>Our Category</span>
-                                <h2>Search By Category</h2>
-                            </div>
-                        </div>
-                    </Row>
-                    <Row className="row">
-                    {categories.map((category) => (
-                           <Link to={`/product`} key={category._id} className="col-lg-3 col-md-4 col-sm-6">
-                                <div className={Styles.car__item} >
-                                    <div className={Styles.car__item__pic__slider} >
-                                        <img src={`http://localhost:8000/${category.image.replace(/\\/g, '/')}`} />
-                                    </div>
-                                    <div className={Styles.car__item__text}>
-                                        <div className={Styles.car__item__text__inner}>
-                                            <h4>{category.categoryName}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                         ))}
-                    </Row>
-                </div>
-            </section>
             {/* Feature Section Begin */}
             <section className={`${Styles.feature} ${Styles.spad}`}>
                 <div className={Styles.featurecontainer}>

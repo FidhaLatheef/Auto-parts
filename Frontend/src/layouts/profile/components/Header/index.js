@@ -60,7 +60,7 @@ function Header() {
     }) 
       .then(response => {
         const userData = response.data;
-        console.log(userData);
+        // console.log(userData);
         setName(userData.name);
         setImage(userData.image);
         console.log(userData.image);
@@ -130,7 +130,7 @@ function Header() {
         <Grid container spacing={3} alignItems="center">
           <Grid item>
             <SoftAvatar
-              src={`http://localhost:8000/${image}`}
+              // src={`http://localhost:8000/${image}`}
               alt="profile-image"
               variant="rounded"
               size="xl"

@@ -34,9 +34,9 @@ function Header() {
                         </nav>
                         <div className={Styles.header__nav__widget}>
                             <div className={Styles.header__nav__widget__btn}>
-                                <a href='#'><Icon> <span className="material-symbols-outlined">
+                                {/* <a href='#'><Icon> <span className="material-symbols-outlined">
                                     search
-                                </span></Icon></a>
+                                </span></Icon></a> */}
                                 <a href='/wishlist'><Icon> <span className="material-symbols-outlined">
                                     favorite
                                 </span></Icon></a>

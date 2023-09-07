@@ -596,7 +596,8 @@ ol {
 
 .hero__text__title h1 {
 	font-size: 50px;
-	margin-top: 10px;
+	/* margin-top: 10px; */
+	margin-right: 50px;
 }
 
 .hero__text__price {
