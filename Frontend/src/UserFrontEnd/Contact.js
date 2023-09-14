@@ -7,15 +7,15 @@ import { Row } from 'react-bootstrap'
 
 function Contact() {
   return (
-    <div>
+    <div className={Styles.home}>
       <Header />
       <div className={`${Styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>
-                    <div className="col-lg-12 text-center">
-                        <div className={Styles.breadcrumb__text}>
-                            <h2>Contact Us</h2>
-                        </div>
-                    </div>
-                </div>
+        <div className="col-lg-12 text-center">
+          <div className={Styles.breadcrumb__text}>
+            <h2>Contact Us</h2>
+          </div>
+        </div>
+      </div>
 
       {/* Contact Section Begin */}
       <section className={`${Styles.contact} ${Styles.spad}`}>

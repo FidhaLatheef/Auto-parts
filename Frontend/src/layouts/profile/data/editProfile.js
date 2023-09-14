@@ -45,7 +45,7 @@ function EditProfile() {
       formData.append('name', adminProfile.name);
       formData.append('email', adminProfile.email);
       formData.append('mobile', adminProfile.mobile);
-      formData.append('password', adminProfile.password);
+      // formData.append('password', adminProfile.password);
       formData.append('location', adminProfile.location);
       formData.append('role', adminProfile.role);
       formData.append('image', adminProfile.image);
@@ -55,13 +55,15 @@ function EditProfile() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        
       })     .then(function (response) {
-        
-        console.log(response.data.adminProfile);
+        console.log('hiiiiiiiii')
+        // setAdminProfile(response.data.adminProfile);
+        // console.log(response.data.adminProfile,'adminProfile')
         localStorage.setItem('adminProfile',JSON.stringify(response.data.adminProfile));
+        // localStorage.setItem('adminProfile',response.data.adminProfile);
       })
       .catch(function (error) {
+        console.log(error,"errrrr")
         console.log(error);
       });
 

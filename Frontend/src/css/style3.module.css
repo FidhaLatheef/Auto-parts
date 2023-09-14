@@ -32,6 +32,7 @@
 
 html,
 body {
+	width: 1336px;
 	height: 100%;
 	font-family: "Nunito Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -2711,7 +2712,7 @@ ol {
 }
 
 .checkout__order {
-	background: #f3f2ee;
+	background: #f1f1f1;
 	padding: 30px;
 }
 

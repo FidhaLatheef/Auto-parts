@@ -96,7 +96,7 @@ function ProfileInfoCard({ title, description, info, social, action }) {
         <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
           {title}
         </SoftTypography>
-        <SoftTypography component={Link} to={`/editProfile/${adminProfile.id}`} variant="body2" color="secondary">
+        <SoftTypography  variant="body2" color="secondary">
           <Tooltip title={action.tooltip} placement="top">
             <Icon component={Link}
             to={`/editProfile/${adminProfile.id}`}>edit</Icon>

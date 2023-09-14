@@ -58,12 +58,15 @@ export default function App() {
   console.log(     pathname.search("productDetails")
   )
   if (
-    pathname == "/userHome" ||
+    pathname == "/UserHome" ||
     pathname == "/product" ||
     pathname == "/about" ||
     pathname == "/contact" ||
     pathname == "/cart" ||
     pathname == "/wishlist" ||
+    pathname == "/checkout" ||
+    pathname == "/UserSignUp" ||
+    pathname == "/UserLogin" ||
     pathname == "/user/registration" ||
     (pathname.search("productDetails")>-1)
   ) {

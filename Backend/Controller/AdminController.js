@@ -45,22 +45,21 @@ module.exports = {
         // Compare the provided password with the hashed password from the database
         const isPasswordMatch = await bcrypt.compare(password, admin.password);
 
-        const adminProfile={
-            id:admin._id ,
-            name:admin.name,
-            email:admin.email,
-            mobile:admin.mobile,
-            location:admin.location,
-            image:admin.image,
-            role:admin.role
-        }
-
         if (admin && isPasswordMatch) {
             // Generate a JWT token
             const token = jwt.sign({ email: admin.email }, 'myjwtsecretkey');
             admin.tokens=token
             admin.save()
             
+            const adminProfile={
+                id:admin._id ,
+                name:admin.name,
+                email:admin.email,
+                mobile:admin.mobile,
+                location:admin.location,
+                image:admin.image,
+                role:admin.role
+            }
             // Return the token as a response
             res.status(200).json({error:false,message:'sucess', token: token ,adminProfile:adminProfile});
         } else {
@@ -146,16 +145,16 @@ module.exports = {
             admin.mobile = mobile;
             admin.location =location;
             admin.role = role;
-            if (password) {
-                admin.password = await bcrypt.hash(password, 10);
-            }
+            // if (password) {
+            //     admin.password = await bcrypt.hash(password, 10);
+            // }
             if (req.file && req.file.path) {
                 const newImage = req.file.path.replace(/\\/g, '/');
                 admin.image = newImage;
             }
             await admin.save();
             const adminProfile={
-                id:admin._id ,
+                id:admin._id,
                 name:admin.name,
                 email:admin.email,
                 mobile:admin.mobile,
@@ -164,6 +163,7 @@ module.exports = {
                 role:admin.role
             }
 
+            console.log(adminProfile)
             console.log('Admin updated successfully');
             console.log(admin);
             res.json({ message: 'Admin updated successfully' ,adminProfile:adminProfile});

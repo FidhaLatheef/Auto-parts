@@ -21,13 +21,13 @@ function Header() {
                                 <li className={Styles.active}><a href="/userHome">Home</a></li>
                                 <li><a href="/product">Products</a></li>
                                 {/* <li><a href="./blog.html">Blog</a></li> */}
-                                <li><a href="#">Pages</a>
+                                {/* <li><a href="#">Pages</a>
                                     <ul className={Styles.dropdown}>
                                         <li><a href="/about">About Us</a></li>
                                         <li><a href="./car-details.html">Car Details</a></li>
                                         <li><a href="./blog-details.html">Blog Details</a></li>
                                     </ul>
-                                </li>
+                                </li> */}
                                 <li><a href="/about">About</a></li>
                                 <li><a href="/contact">Contact</a></li>
                             </ul>

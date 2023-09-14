@@ -16,7 +16,7 @@ function Product() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage,setProductsPerPage] = useState(3); 
+  const [productsPerPage, setProductsPerPage] = useState(3);
   useEffect(() => {
     fetchProducts();
     categoriesList();
@@ -165,7 +165,7 @@ function Product() {
   }
 
   return (
-    <div>
+    <div className={Styles.home}>
       <Header />
       <div className={`${Styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>
         <div className="col-lg-12 text-center">
@@ -242,7 +242,7 @@ function Product() {
                 <div>
                   <Row className="row">
                     {currentProducts.map((product) => (
-                      <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3 col-md-4 col-sm-6">
+                      <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
                         <div className={Styles.car__item}>
                           <div className={Styles.car__item__pic__slider}>
                             <img
@@ -263,7 +263,10 @@ function Product() {
                             <div className={Styles.car__item__text__inner}>
                               <h4>{product.productName}</h4>
                               <p className={Styles.productPrice}>{product.price}</p>
-                              <p>{product.description}</p>
+                              <p  style={{ maxWidth:"700px" }}>
+                                {product.description}
+                              </p>
+
                             </div>
                           </div>
                         </div>

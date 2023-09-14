@@ -61,6 +61,7 @@ import UserHome from "UserFrontEnd/UserHome"
 import Product from "UserFrontEnd/Product"
 import About from "UserFrontEnd/About"
 import Contact from "UserFrontEnd/Contact"
+import Checkout from "UserFrontEnd/Checkout";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -75,6 +76,8 @@ import Basket from "examples/Icons/Basket";
 import Cart from "UserFrontEnd/Cart"
 import Wishlist from "UserFrontEnd/Wishlist"
 import ProductDetails from "UserFrontEnd/productDetails"
+import UserSignUp from "UserFrontEnd/userSignUp";
+import UserLogin from "UserFrontEnd/userLogin";
 
 const routes = [
   {
@@ -323,11 +326,38 @@ const routes = [
   },
   {
     // type: "collapse",
+    name: "Checkout",
+    key: "Checkout",
+    route: "/checkout",
+    icon: <Shop size="12px" />,
+    component: <Checkout />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
     name: "productDetails",
     key: "productDetails",
     route: "/productDetails/:id",
     icon: <Shop size="12px" />,
     component: <ProductDetails />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "UserSignUp",
+    key: "UserSignUp",
+    route: "/UserSignUp",
+    icon: <Shop size="12px" />,
+    component: <UserSignUp />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "UserLogin",
+    key: "UserLogin",
+    route: "/UserLogin",
+    icon: <Shop size="12px" />,
+    component: <UserLogin />,
     noCollapse: true,
   },
 ];

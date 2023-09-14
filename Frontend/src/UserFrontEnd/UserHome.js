@@ -16,6 +16,7 @@ import s3 from "assets/images/wheel-balancing.jpg"
 import s4 from "assets/images/carzone-painting.jpg"
 import Header from "UserFrontEnd/components/Header"
 import Footer from "UserFrontEnd/components/Footer"
+import Banner from "UserFrontEnd/components/Banner"
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -63,33 +64,14 @@ function Home() {
        }
 
     return (
-        <div>
+        <div className={Styles.home}>
             <Header />
+            <Banner/>
             {/* Hero Section Begin */}
-            <section className={`${Styles.hero} ${Styles.spad} ${Styles.setbg}`}
-                style={{
-                    backgroundImage: `url(${HeroBg})`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                }}
-            >
-                <div className={Styles.container}>
-                    <Row className="row">
-                        <div className="col-lg-7">
-                            <div className={Styles.hero__text}>
-                                <div className={Styles.hero__text__title}>
-                                    <h1>Discover Quality Spare Parts for Your Vehicles</h1>
-                                    <p>Explore our wide range of genuine spare parts to keep your vehicles running smoothly.</p>
-                                </div>
-                                <a href="/product" className={Styles.primarybtn}> Shop Now</a>
-                            </div>
-                        </div>
-                    </Row>
-                </div>
-            </section>
+        
             {/* Hero Section End */}
             {/* Services Section Begin */}
-            <section className={`${Styles.services} ${Styles.spad}`} >
+            <section>
                 <div className={Styles.servicecontainer}>
                     <Row className="row">
                         <div className="col-lg-12">
@@ -143,7 +125,7 @@ function Home() {
             {/* Services Section End */}
             {/* Feature Section Begin */}
             <section className={`${Styles.feature} ${Styles.spad}`}>
-                <div className={Styles.featurecontainer}>
+                <div className={Styles.servicecontainer}>
                     <Row className="row">
                         <div className="col-lg-4">
                             <div className={Styles.feature__text}>

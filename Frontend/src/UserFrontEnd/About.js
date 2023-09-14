@@ -23,7 +23,7 @@ import c7 from "assets/images/clients/client-7.png"
 
 function About() {
     return (
-        <div>
+        <div className={Styles.home}>
             <Header />
             <div>
                 <div className={`${Styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>

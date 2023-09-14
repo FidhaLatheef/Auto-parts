@@ -63,9 +63,6 @@ function AddProduct() {
       console.log("Error fetching brand list:", error);
     }
   };
-
-
-
   const handleForm = (e) => {
     e.preventDefault();
 
@@ -129,7 +126,6 @@ function AddProduct() {
                 onChange={(e) => setProductName(e.target.value)}
                 placeholder="Product Name"
               />
-
             </SoftBox>
             <SoftBox mb={2}>
               <InputLabel id="category-label">Model Name</InputLabel>
@@ -140,7 +136,6 @@ function AddProduct() {
                 onChange={(e) => setModelName(e.target.value)}
                 placeholder="Model Name"
               />
-
             </SoftBox>
             <SoftBox mb={2}>
               <InputLabel id="category-label">Description</InputLabel>

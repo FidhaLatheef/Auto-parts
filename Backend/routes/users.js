@@ -1,9 +1,20 @@
-var express = require('express');
-var router = express.Router();
+var express=require('express');
+var router=express.Router();
+var multer=require('multer')
+var userController=require('../Controller/UserController');
+var verifyToken=require('../Middlewares/verifyToken')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
 });
+
+var upload = multer({ storage: storage });
+
+router.post("/signUp",upload.single('image'), userController.userSignUp);
 
 module.exports = router;

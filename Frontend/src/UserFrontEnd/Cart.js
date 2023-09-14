@@ -31,12 +31,15 @@ function Cart() {
     };
      const continueShoping =()=>{
         window.location.href="/product"
+     };
+     const openCheckout =()=>{
+        window.location.href="/checkout"
      }
 
     return (
-        <div>
+        <div className={Styles.home}>
             <Header />
-            <div className={Styles.servicecontainer}>
+            <div className={Styles.wishcontainer}>
                 <h1 className={Styles.carthead}>My Cart</h1>
                 <div className={Styles.cart}>
                     <table>
@@ -93,7 +96,7 @@ function Cart() {
                     <div className={Styles.cartsummary}>
                         <button className={Styles.continueshoppingbtn} onClick={continueShoping}>Continue Shopping</button>
                         <div className={Styles.total}>Cart Total: ${calculateCartTotal()}</div>
-                        <button className={Styles.checkoutbtn}>Proceed to Checkout</button>
+                        <button className={Styles.checkoutbtn} onClick={openCheckout}>Proceed to Checkout</button>
                     </div>
                 </div>
             </div>

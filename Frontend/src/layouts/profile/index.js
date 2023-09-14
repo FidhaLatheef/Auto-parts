@@ -58,9 +58,23 @@ function Overview() {
   const [mobile,setMobile]=useState('');
   const [email,setEmail]=useState('');
   const [location,setLocation]=useState('');
-  const fetchadminProfile=JSON.parse(localStorage.getItem("adminProfile"))
-  const [adminProfile]=useState(fetchadminProfile)  
+  // const fetchadminProfile=JSON.parse(localStorage.getItem("adminProfile"))
+  // const [adminProfile]=useState(fetchadminProfile)  
+  const [adminProfile, setAdminProfile]=useState("")  
   const { id } = useParams();
+  useEffect(() => {
+    // Retrieve data from localStorage
+    const storedAdminProfile = localStorage.getItem("adminProfile");
+
+    if (storedAdminProfile) {
+      try {
+        const parsedAdminProfile = JSON.parse(storedAdminProfile);
+        setAdminProfile(parsedAdminProfile);
+      } catch (error) {
+        console.error("Error parsing adminProfile from localStorage:", error);
+      }
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -75,10 +89,11 @@ function Overview() {
               title="profile information"
               description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
               info={{
-                name: `${adminProfile.name}`,
-                mobile: `${adminProfile.mobile}`,
-                email:`${adminProfile.email}` ,
-                location: `${adminProfile.location}`,
+                name: adminProfile.name,
+mobile: adminProfile.mobile,
+email: adminProfile.email,
+location: adminProfile.location,
+
               }}
               social={[
                 {
