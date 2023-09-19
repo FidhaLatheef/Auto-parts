@@ -29,10 +29,8 @@ function Home() {
       }, []);
 
     const fetchProducts = async () => {
-        const token = localStorage.getItem('token');
-        axios.defaults.headers.common['Authorization'] = token;
         axios
-          .get('http://localhost:8000/product/productList')
+          .get('http://localhost:8000/user/productList')
           .then((response) => {
             setProducts(response.data);
           })
@@ -44,9 +42,7 @@ function Home() {
       };
 
       const categoryList=async()=>{
-        const token = localStorage.getItem('token');
-        axios.defaults.headers.common['Authorization'] = token;
-        axios.get("http://localhost:8000/category/categoryList")
+        axios.get("http://localhost:8000/user/categoryList")
         .then((response) => { console.log(response.message);
           if(response.message == "No token provided"){
             window.location.href="login";

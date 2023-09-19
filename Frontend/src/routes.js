@@ -274,7 +274,7 @@ const routes = [
     // type: "collapse",
     name: "UserHome",
     key: "userHome",
-    route: "/userHome",
+    route: "/UserHome",
     icon: <Shop size="12px" />,
     component: <UserHome />,
     noCollapse: true,

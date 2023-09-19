@@ -26,9 +26,7 @@ function ProductDetails() {
     useEffect(() => {
         async function fetchProductDetails() {
             try {
-                const token = localStorage.getItem('token');
-                axios.defaults.headers.common['Authorization'] = token;
-                const response = await axios.get(`http://localhost:8000/product/getProductById/${id}`);
+                const response = await axios.get(`http://localhost:8000/user/getProductById/${id}`);
                 setProduct(response.data);
                 const image = response.data.images;
                 if (image && Array.isArray(image) && image.length > 0) {

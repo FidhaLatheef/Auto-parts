@@ -2,7 +2,7 @@ var express=require('express');
 var router=express.Router();
 var multer=require('multer')
 var adminController=require('../Controller/AdminController');
-var verifyToken=require('../Middlewares/verifyToken')
+var verifyToken=require('../Middlewares/AdminToken')
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {

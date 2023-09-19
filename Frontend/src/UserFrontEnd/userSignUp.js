@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast'
 
 function UserSignUp() {
     const [name, setName] = useState('');
@@ -7,15 +8,17 @@ function UserSignUp() {
     const [mobile, setMobile] = useState('');
     const [image, setImage] = useState('');
     const [password, setPassword] = useState('');
+    const [fieldRequired, setFieldRequired] = useState(false);
+    const [Exist, setExist] = useState(false);
 
     const handleForm = (e) => {
         e.preventDefault();
 
-        // if (name === '' || email === '' || mobile === '' || password === '' || location === '' || role === '' || !image === '') {
-        //     setFieldRequired(true);
-        //     toast.error('Please enter all fields')
-        //     return;
-        // }
+        if (name === '' || email === '' || mobile === '' || password === ''  || !image === '') {
+            setFieldRequired(true);
+            toast.error('Please enter all fields')
+            return;
+        }
 
         const formData = new FormData();
 
@@ -24,9 +27,6 @@ function UserSignUp() {
         formData.append("mobile", mobile);
         formData.append("password", password);
         formData.append("image", image);
-
-        // const token = localStorage.getItem('token');
-        // axios.defaults.headers.common['Authorization'] = token;
         axios
             .post('http://localhost:8000/user/signUp', formData, {
                 headers: {
@@ -34,22 +34,23 @@ function UserSignUp() {
                 },
             })
             .then(function (response) {
-                window.location.href = '/UserHome';
+                window.location.href = '/UserLogin';
 
             })
             .catch(function (error) {
                 console.log(error);
                 if (error.response && error.response.status === 400) {
-                    // setExist(true);
-                    // toast.error('Admin Already Exist')
+                    setExist(true);
+                    toast.error('User Already Exist')
                     if (error.response.status == "401") {
-                        window.location.href = "authentication/sign-in";
+                        window.location.href = "/UserLogin";
                     }
                 }
             });
     };
     return (
         <div>
+            <Toaster/>
             {/* Section: Design Block */}
             <section className="text-center text-lg-start">
                 <style
@@ -107,12 +108,10 @@ function UserSignUp() {
                                                         name="mobile"
                                                         value={mobile}
                                                         onChange={(e) => setMobile(e.target.value)}
-                                                        placeholder="Mobile"
                                                     />
                                                     <label
                                                         className="form-label"
-                                                        htmlFor="form3Example2"
-                                                        
+                                                        htmlFor="form3Example2"                                                       
                                                     >
                                                         Mobile
                                                     </label>

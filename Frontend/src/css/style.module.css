@@ -548,18 +548,36 @@ ol {
 
 .header__nav__widget {
 	display: inline-block;
-}
-
-.header__nav__widget .header__nav__widget__btn {
+  }
+  
+  .header__nav__widget .header__nav__widget__btn {
 	display: inline-block;
-}
-
-.header__nav__widget .header__nav__widget__btn a {
+	position: relative; /* Add this line to make sure the badge is positioned relative to the button */
+  }
+  
+  .header__nav__widget .header__nav__widget__btn a {
 	font-size: 30px;
 	color: #353535;
 	margin-right: 20px;
 	display: inline-block;
-}
+  }
+  
+  .header__nav__widget__btn a span {
+	position: absolute; /* Position the badge absolutely within the button */
+	right: 5px; /* Adjust the right position to place it on the top right corner */
+	top: 9px; /* Adjust the top position to place it on the top right corner */
+	font-size: 15px;
+	color: #fff; /* Text color of the badge */
+	background-color: #ca0404;
+	border: 1px solid #fff; /* Add a border to the badge */
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
 
 .offcanvas-menu-wrapper {
 	display: none;

@@ -25,9 +25,7 @@ function Product() {
 
   const categoriesList = async () => {
     try {
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = token;
-      const response = await axios.get('http://localhost:8000/category/categoryList');
+      const response = await axios.get('http://localhost:8000/user/categoryList');
       setCategoryList(response.data.data);
     } catch (error) {
       console.log('Error fetching category list:', error);
@@ -36,20 +34,15 @@ function Product() {
 
   const brandsList = async () => {
     try {
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = token;
-      const response = await axios.get('http://localhost:8000/brand/brandList');
+      const response = await axios.get('http://localhost:8000/user/brandList');
       setBrandList(response.data.data);
     } catch (error) {
       console.log('Error fetching brand list:', error);
     }
   };
-
   const fetchProducts = async () => {
-    const token = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = token;
     axios
-      .get('http://localhost:8000/product/productList')
+      .get('http://localhost:8000/user/productList')
       .then((response) => {
         setProducts(response.data);
       })

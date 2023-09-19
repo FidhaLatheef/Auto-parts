@@ -1,7 +1,7 @@
 var express=require('express');
 var router=express.Router();
 var multer=require('multer');
-var verifyToken=require('../Middlewares/verifyToken')
+var verifyToken=require('../Middlewares/AdminToken')
 var brandController=require('../Controller/BrandController');
 
 var storage = multer.diskStorage({
