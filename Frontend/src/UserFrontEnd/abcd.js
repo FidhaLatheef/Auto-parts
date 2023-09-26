@@ -1,681 +1,420 @@
-import Footer from "./userFrontEnd/footer";
-import TopNavBar from "./userFrontEnd/topNavBar";
-import { Image, Row } from "react-bootstrap";
-import search from "assets/img/icon/search.png";
-import heart from "assets/img/icon/heart.png";
-import cart from "assets/img/icon/cart.png";
-import styles from "../css/style.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+/**
+=========================================================
+* Material Dashboard 2 React - v2.2.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+
+// @mui material components
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import Dialog from "@mui/material/Dialog";
+
+// Material Dashboard 2 React components
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+
+// Material Dashboard 2 React example components
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import bgImage from "assets/images/bg-profile.jpeg";
+// Data
+// import authorsTableData from "layouts/coupon/data/authorsTableData";
+import MDButton from "components/MDButton";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import styles from "css/style.module.css";
+import { Col, Row } from "react-bootstrap";
+import { Icon } from "@mui/material";
+// import { useNavigate } from "react-router-dom";
 
-function Checkout() {
-  const [username, setuserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState("");
-  const [createAccount, setCreateAccount] = useState(false);
-  const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const [cartItems, setCartItems] = useState(initialCart);
-  // const selectedCode = JSON.parse(localStorage.getItem("selectedCouponCode")) || [];
-  // const [code, setCode] = useState(selectedCode);
-  const navigate = useNavigate("");
-  const [selectedCouponCode, setSelectedCouponCode] = useState("");
-  const [formIsValid, setFormIsValid] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [error, setError] = useState("");
-  const [subtotal, setSubtotal] = useState(0);
-  useEffect(() => {
-    const subtotalValue = calculateSubtotal();
-    setSubtotal(subtotalValue);
-  }, [cartItems]);
-  const [billingDetails, setBillingDetails] = useState({
-    firstName: "",
-    lastName: "",
-    country: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    postcode: "",
-    phone: "",
-    email: "",
-    // createAccount: false,
-    // username: "",
-    // accountPassword: "",
-    // noteAboutOrder: "",
-  });
-
-  const [shippingDetails, setShippingDetails] = useState({
-    firstName: "",
-    lastName: "",
-    country: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    postcode: "",
-    phone: "",
-    email: "",
-  });
-
-  const handleBillingChange = (event) => {
-    const { name, value } = event.target;
-    setBillingDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-  };
-
-  const handleShippingChange = (event) => {
-    const { name, value } = event.target;
-    setShippingDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-  };
-
-  const copyBillingToShipping = () => {
-    setShippingDetails(billingDetails);
-  };
+function Order() {
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [status, setStatus] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderStatuses, setOrderStatuses] = useState([]);
 
   useEffect(() => {
-    const storedCouponCode = localStorage.getItem("selectedCouponCode");
-    if (storedCouponCode) {
-      setSelectedCouponCode(storedCouponCode);
-    }
+    axios.get("http://localhost:8000/admin/listorder").then((response) => {
+      setOrders(response.data.data);
+      console.log("jiiiiiii", response.data.data);
+      const initialStatuses = response.data.data.map((order) => order.status);
+      setStatus(initialStatuses);
+    });
   }, []);
 
-  const calculateSubtotal = () => {
-    let subtotal = 0;
-    cartItems.forEach((item) => {
-      subtotal += item.quantity * item.offerprice;
-    });
-    return subtotal.toFixed(2);
-  };
-
-  const calculateTotal = () => {
-    const subtotal = parseFloat(calculateSubtotal());
-
-    const storedCouponCode = localStorage.getItem("selectedCouponCode");
-    const selectedCoupon = storedCouponCode ? JSON.parse(storedCouponCode) : null;
-    let discountAmount = 0;
-    if (selectedCoupon) {
-      discountAmount = (subtotal * selectedCoupon.discount) / 100;
-    }
-
-    const total = subtotal - discountAmount;
-    return {
-      total: total.toFixed(2),
-      discountAmount: discountAmount.toFixed(2),
+  const handleStatusUpdate = (id) => {
+    const index = orders.findIndex((order) => order._id === id);
+    const orderId = selectedOrder.orderId;
+    console.log(orderId);
+    const orderStatus = status;
+    console.log(orderStatus);
+    const data = {
+      status: orderStatus,
+      orderId,
     };
-  };
-  const totalAndDiscount = calculateTotal();
-
-  const validateForm = () => {
-    const billingFieldsFilled = Object.values(billingDetails).every((value) => value.trim() !== "");
-    const shippingFieldsFilled = Object.values(shippingDetails).every(
-      (value) => value.trim() !== ""
-    );
-
-    setFormIsValid(billingFieldsFilled && shippingFieldsFilled);
-
-    if (!billingFieldsFilled || !shippingFieldsFilled) {
-      setErrorMessage("Please fill in all the required fields.");
-    } else {
-      setErrorMessage("");
-    }
-  };
-
-  const handlePlaceOrder = (event) => {
-    event.preventDefault();
-    validateForm();
-
-    if (formIsValid) {
-      const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-      let data;
-      if (userProfile) {
-        data = {
-          userId: userProfile.id,
-          cartItems: cartItems,
-          billingDetails: billingDetails,
-          shippingDetails: shippingDetails,
-          subtotal: subtotal,
-          discountAmount: totalAndDiscount.discountAmount,
-          total: totalAndDiscount.total,
-        };
-      } else {
-        data = {
-          // UserId: userProfile.id,
-          cartItems: cartItems,
-          billingDetails: billingDetails,
-          shippingDetails: shippingDetails,
-          subtotal: subtotal,
-          discountAmount: totalAndDiscount.discountAmount,
-          total: totalAndDiscount.total,
-        };
-      }
-      console.log({ "first data": data });
-
-      if (createAccount) {
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onloadend = async () => {
-          const base64Image = reader.result;
-          const userData = {
-            firstName: billingDetails.firstName,
-            lastName: billingDetails.lastName,
-            Username: username,
-            Password: password,
-            Image: base64Image,
-            Email: billingDetails.email,
-            Country: billingDetails.country,
-            State: billingDetails.state,
-            Phone: billingDetails.phone,
-          };
-          const userprofile = {
-            firstname: billingDetails.firstName,
-            lastname: billingDetails.lastName,
-            username: username,
-            // password: password,
-            image: base64Image,
-            email: billingDetails.email,
-            country: billingDetails.country,
-            state: billingDetails.state,
-            phone: billingDetails.phone,
-          };
-          axios
-            .post("http://localhost:8000/users/adduser", userData)
-            .then((response) => {
-              console.log("User registered:", response.data);
-              localStorage.setItem("usertoken", response.data.token);
-              localStorage.setItem("userProfile", JSON.stringify(userprofile));
-              placeOrder(data);
-            })
-            .catch((error) => {
-              console.error("Error registering user:", error.message);
-              if (error.response && error.response.status === 400) {
-                setError(error.response.data.error);
-              }
-            });
-        };
-      } else {
-        placeOrder(data);
-      }
-    }
-  };
-
-  const placeOrder = (data) => {
-    console.log({ "second data": data });
+    console.log(data);
     axios
-      .post("http://localhost:8000/users/addorder", data)
+      .post(http://localhost:8000/admin/addstatus/${id}, data)
       .then((response) => {
-        console.log("Order placed:", response.data);
-        localStorage.setItem("cart", JSON.stringify([]));
-        localStorage.removeItem("selectedCouponCode");
-        const orderDataWithId = { ...data, orderId: response.data.orderId };
-        navigate("/invoice", { state: orderDataWithId });
+        console.log(response.data);
+        console.log("Status updated successfully");
       })
       .catch((error) => {
-        console.error("Error placing order:", error.message);
+        console.error("Error updating status:", error);
       });
   };
-  return (
-    <div>
-      <TopNavBar />
-      <section className={styles.breadcrumboption}>
-        <div className={styles.container} style={{ marginLeft: "180px" }}>
-          <Row className={styles.row}>
-            <div className="col-lg-12">
-              <div className={styles.breadcrumb__text}>
-                <h4>Check Out</h4>
-                <div className={styles.breadcrumb__links}>
-                  <a href="/home">Home</a>
-                  <a href="/shop">Shop</a>
-                  <span>Check Out</span>
-                </div>
-              </div>
-            </div>
-          </Row>
-        </div>
-      </section>
-      {/* Breadcrumb Section End */}
-      {/* Checkout Section Begin */}
-      <section className={`${styles.checkout} ${styles.spad}`}>
-        <div className={styles.container} style={{ marginLeft: "180px" }}>
-          <div className={styles.checkout__form}>
-            <form action="#">
-              <Row className={styles.row}>
-                <div className="col-lg-8 col-md-6">
-                  <h6 className={styles.coupon__code}>
-                    <span className={styles.icon_tag_alt} />
-                    Selected Coupon: {selectedCouponCode.name}
-                    <br />
-                    {/* <a
-                      href="#"
-                      onClick={() => {
-                        const couponCode = prompt("Enter your coupon code");
-                        setSelectedCouponCode(couponCode);
 
-                        localStorage.setItem("selectedCouponCode", couponCode);
+  const handleStatusChange = (id, newStatus) => {
+    const index = orders.findIndex((order) => order._id === id);
+    const updatedStatuses = [...status];
+    updatedStatuses[index] = newStatus;
+    console.log("hiii", updatedStatuses[index]);
+    setStatus(updatedStatuses[index]);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
+
+  const viewOrder = (id) => {
+    console.log("View button clicked for order ID:", id);
+    const selectedProduct = orders.find((item) => item._id === id);
+    setSelectedOrder(selectedProduct);
+    console.log(selectedProduct);
+    handleOpen();
+  };
+  const parseOrderId = (orderid) => {
+    if (orderid) {
+      const dateTimePart = orderid.split("-")[0];
+      const year = dateTimePart.substring(0, 4);
+      const month = dateTimePart.substring(4, 6);
+      const day = dateTimePart.substring(6, 8);
+      const hours = dateTimePart.substring(8, 10);
+      const minutes = dateTimePart.substring(10, 12);
+      const seconds = dateTimePart.substring(12, 14);
+
+      const invoiceNumber = orderid.split("-")[1];
+
+      const invoiceDate = ${year}-${month}-${day};
+      const invoiceTime = ${hours}:${minutes}:${seconds};
+      return {
+        invoiceNumber,
+        invoiceDate,
+        invoiceTime,
+      };
+    } else {
+      return {
+        invoiceNumber: "",
+        invoiceDate: "",
+        invoiceTime: "",
+      };
+    }
+  };
+  const handleDialogClose = () => {
+    // Reload the page when the dialog is closed
+    window.location.reload();
+  };
+
+  return (
+    <DashboardLayout image={bgImage}>
+      <DashboardNavbar />
+      <MDBox pt={6} pb={3}>
+        <MDBox
+          mx={2}
+          mt={-3}
+          py={3}
+          px={2}
+          borderRadius="lg"
+          style={{ backgroundColor: "#a8729a" }}
+        >
+          <MDTypography variant="h6" color="white">
+            Order Management
+          </MDTypography>
+        </MDBox>
+        {/* <br /> */}
+        <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Card>
+              <section>
+                <div className="container py-2 h-100">
+                  <div className="row d-flex justify-content-center align-items-center h-100 w-100">
+                    <div className="col-lg-13 col-xl-15">
+                      <div className="card" style={{ borderRadius: 10, width: "1190px" }}>
+                        <table className="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th style={{ color: "#a8729a" }}>Date</th>
+                              <th style={{ color: "#a8729a" }}>Order ID</th>
+                              <th style={{ color: "#a8729a" }}>User Name</th>
+                              <th style={{ color: "#a8729a" }}>No. of Items</th>
+                              <th style={{ color: "#a8729a" }}>Qty</th>
+                              <th style={{ color: "#a8729a" }}>Total Amount</th>
+                              <th style={{ color: "#a8729a" }}>Action</th>
+                              {/* <th style={{ color: "#a8729a" }}>Status</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {orders.map((order, index) => (
+                              <tr key={order._id}>
+                                <td>{parseOrderId(order.orderId).invoiceDate}</td>
+                                <td>{order.orderId}</td>
+                                <td>
+                                  {order.billingDetails.firstName} {order.billingDetails.lastName}
+                                </td>
+                                <td>{order.cartItems.length}</td>
+                                <td>
+                                  {order.cartItems.reduce(
+                                    (totalQuantity, item) => totalQuantity + item.quantity,
+                                    0
+                                  )}
+                                </td>
+                                <td>
+                                  ₹{" "}
+                                  {order.cartItems.reduce(
+                                    (totalPrice, item) => totalPrice + item.offerprice,
+                                    0
+                                  )}
+                                </td>
+                                <td>
+                                  <button
+                                    style={{ backgroundColor: "#a8729a", color: "white" }}
+                                    className="btn"
+                                    onClick={() => viewOrder(order._id)}
+                                  >
+                                    View
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </Card>
+          </Grid>
+        </Grid>
+        <br />
+      </MDBox>
+      <Dialog open={open} onClose={handleClose} maxWidth="md">
+        <div className="container h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-lg-10 col-xl-12">
+              <div className="card" style={{ borderRadius: 10 }}>
+                {selectedOrder && (
+                  <>
+                    <div className="card-header px-6 py-2">
+                      <h5 className="text-muted mb-0">
+                        Order from {selectedOrder.billingDetails.firstName}{" "}
+                        {selectedOrder.billingDetails.lastName},
+                        <span style={{ color: "#a8729a" }}>
+                          {/* {userDetails.firstname} {userDetails.lastname} */}
+                        </span>
+                        {/* ! */}
+                      </h5>
+                    </div>
+                    <div className="card-body p-2">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <p className="lead fw-normal mb-0" style={{ color: "#a8729a" }}>
+                          Order Id
+                        </p>
+                        <p className="small text-muted mb-0">{selectedOrder.orderId}</p>
+                      </div>
+                      {selectedOrder.cartItems.map((item, index, pr) => (
+                        <div key={index} className="card shadow-0 border mb-2">
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-2">
+                                <img
+                                  src={item.image}
+                                  className="img-fluid"
+                                  alt={item.productName}
+                                />
+                              </div>
+                              <div className="col-3 text-center d-flex justify-content-center align-items-center">
+                                <p className="text-muted mb-0">{item.productName}</p>
+                              </div>
+                              <div className="col-2 text-center d-flex justify-content-center align-items-center">
+                                <p className="text-muted mb-0 small">Qty: {item.quantity}</p>
+                              </div>
+                              <div className="col-2 text-center d-flex justify-content-center align-items-center">
+                                <p className="text-muted mb-0 small">₹ {item.offerprice}</p>
+                              </div>
+                              <div className="col-3 text-center d-flex justify-content-center align-items-center">
+                                <select
+                                  value={status[pr]}
+                                  onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                                >
+                                  <option value={item.status}>{item.status}</option>
+                                  <option value="Order Received">Order Received</option>
+                                  <option value="Packed">Packed</option>
+                                  <option value="Shipped">Shipped</option>
+                                  <option value="Out for Delivery">Out for Delivery</option>
+                                  <option value="Delivered">Delivered</option>
+                                  <option value="Cancelled">Cancelled</option>
+                                </select>
+                                <button
+                                  style={{ backgroundColor: "#a8729a", color: "white" }}
+                                  className="btn"
+                                  onClick={() => handleStatusUpdate(item.id)}
+                                >
+                                  <Icon>
+                                    <span className="material-symbols-sharp">done_outline</span>
+                                  </Icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <Row>
+                        <Col className="col-6">
+                          <div className="d-flex justify-content-between pt">
+                            <div className="card shadow-0 border mb-2">
+                              <p className="fw-bold mb-0">Billing Details</p>
+                              <div className="card-body">
+                                <div className="row">
+                                  <div className="col-md-35">
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.billingDetails.firstName}{" "}
+                                      {selectedOrder.billingDetails.lastName}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.billingDetails.address1}
+                                      {", "}
+                                      {selectedOrder.billingDetails.address2}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.billingDetails.country}
+                                      {", "}
+                                      {selectedOrder.billingDetails.state}
+                                      {", "}
+                                      {selectedOrder.billingDetails.city}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      PIN : {selectedOrder.billingDetails.postcode}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      Phone : {selectedOrder.billingDetails.phone}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.billingDetails.email}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col className="col-6">
+                          <div className="d-flex justify-content-between pt">
+                            <div className="card shadow-0 border mb-2">
+                              <p className="fw-bold mb-0">Shipping Details</p>
+                              <div className="card-body">
+                                <div className="row">
+                                  <div className="col-md-35">
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.shippingDetails.firstName}{" "}
+                                      {selectedOrder.shippingDetails.lastName}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.shippingDetails.address1}
+                                      {", "}
+                                      {selectedOrder.shippingDetails.address2}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.shippingDetails.country}
+                                      {", "}
+                                      {selectedOrder.shippingDetails.state}
+                                      {", "}
+                                      {selectedOrder.shippingDetails.city}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      PIN : {selectedOrder.shippingDetails.postcode}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      Phone : {selectedOrder.shippingDetails.phone}
+                                    </p>
+                                    <p className="text-muted mb-0">
+                                      {selectedOrder.shippingDetails.email}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className="d-flex justify-content-between pt">
+                        <p className="fw-bold mb-0">Order Details</p>
+                      </div>
+                      <div className="d-flex justify-content-between pt">
+                        <p className="text-muted mb-0">
+                          Invoice Number : {parseOrderId(selectedOrder.orderId).invoiceNumber}
+                        </p>
+                        <p className="text-muted mb-0">
+                          <span className="fw-bold me-4">Product Total</span>
+                          {selectedOrder.subtotal}
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="text-muted mb-0">
+                          Order Date : {parseOrderId(selectedOrder.orderId).invoiceDate}
+                        </p>
+                        <p className="text-muted mb-0">
+                          <span className="fw-bold me-4">Discount</span>
+                          {selectedOrder.discountAmount}
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-1">
+                        <p className="text-muted mb-0">
+                          Order Time : {parseOrderId(selectedOrder.orderId).invoiceTime}
+                        </p>
+                        <p className="text-muted mb-0">
+                          <span className="fw-bold me-4">Total</span>
+                          {selectedOrder.total}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="card-footer border-0 px-4 py-2"
+                      style={{
+                        backgroundColor: "#a8729a",
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: 10,
                       }}
                     >
-                      Click here to change coupon
-                    </a>{" "} */}
-                  </h6>
-                  <h6 className={styles.checkout__title}>Billing Details</h6>
-                  <Row className={styles.row}>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          First Name<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="firstName"
-                          placeholder="First Name"
-                          value={billingDetails.firstName}
-                          onChange={handleBillingChange}
-                          required
-                        />
-                      </div>
+                      <h5 className="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                        Total Amount: <span className="h2 mb-0 ms-2">₹ {selectedOrder.total}</span>
+                      </h5>
                     </div>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Last Name<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="lastName"
-                          placeholder="Last Name"
-                          value={billingDetails.lastName}
-                          onChange={handleBillingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </Row>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Country<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="country"
-                      placeholder="Country"
-                      value={billingDetails.country}
-                      onChange={handleBillingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Address<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="address1"
-                      value={billingDetails.address1}
-                      onChange={handleBillingChange}
-                      placeholder="Street Address"
-                      className={styles.checkout_input_add}
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="address2"
-                      value={billingDetails.address2}
-                      placeholder="Apartment, suite, unite etc"
-                      onChange={handleBillingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Town/City<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="city"
-                      value={billingDetails.city}
-                      placeholder="Enter your City"
-                      onChange={handleBillingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      State<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="state"
-                      value={billingDetails.state}
-                      placeholder="Enter your State"
-                      onChange={handleBillingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Postcode / ZIP<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="postcode"
-                      value={billingDetails.postcode}
-                      placeholder="PIN code"
-                      onChange={handleBillingChange}
-                      required
-                    />
-                  </div>
-                  <Row className={styles.row}>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Phone<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="phone"
-                          value={billingDetails.phone}
-                          placeholder="Contact Number"
-                          onChange={handleBillingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Email<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="email"
-                          value={billingDetails.email}
-                          placeholder="example@gmail.com"
-                          onChange={handleBillingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </Row>
-                  <div className={styles.checkout_input_checkbox}>
-                    <label htmlFor="sameAsBilling">
-                      Same as Billing Details?
-                      <input
-                        type="checkbox"
-                        id="sameAsBilling"
-                        onChange={() => setShippingDetails(billingDetails)}
-                      />
-                      <span className={styles.checkmark} />
-                    </label>
-                  </div>
-                  <h6 className={styles.checkout__title}>Shipping Details</h6>
-                  <Row className={styles.row}>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          First Name<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="firstName"
-                          placeholder="First Name"
-                          value={shippingDetails.firstName}
-                          onChange={handleShippingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Last Name<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="lastName"
-                          placeholder="Last Name"
-                          value={shippingDetails.lastName}
-                          onChange={handleShippingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </Row>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Country<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="country"
-                      placeholder="Country"
-                      value={shippingDetails.country}
-                      onChange={handleShippingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Address<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="address1"
-                      value={shippingDetails.address1}
-                      onChange={handleShippingChange}
-                      placeholder="Street Address"
-                      className={styles.checkout_input_add}
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="address2"
-                      value={shippingDetails.address2}
-                      placeholder="Apartment, suite, unite etc"
-                      onChange={handleShippingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Town/City<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="city"
-                      value={shippingDetails.city}
-                      placeholder="Enter your City"
-                      onChange={handleShippingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      State<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="state"
-                      value={shippingDetails.state}
-                      placeholder="Enter your State"
-                      onChange={handleShippingChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Postcode / ZIP<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      name="postcode"
-                      value={shippingDetails.postcode}
-                      placeholder="PIN code"
-                      onChange={handleShippingChange}
-                      required
-                    />
-                  </div>
-                  <Row className={styles.row}>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Phone<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="phone"
-                          value={shippingDetails.phone}
-                          placeholder="Contact Number"
-                          onChange={handleShippingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className={styles.checkout__input}>
-                        <p>
-                          Email<span>*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="email"
-                          value={shippingDetails.email}
-                          placeholder="example@gmail.com"
-                          onChange={handleShippingChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </Row>
-                  <div className={styles.checkout_input_checkbox}>
-                    <label htmlFor="acc">
-                      Create an account?
-                      <input
-                        type="checkbox"
-                        id="acc"
-                        onChange={(e) => setCreateAccount(e.target.checked)}
-                      />
-                      <span className={styles.checkmark} />
-                    </label>
-                    <p>
-                      Create an account by entering the information below. If you are a returning
-                      customer please login at the top of the page
-                    </p>
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <input type="text" />
-                    <p>
-                      Upload your profile picture<span>*</span>
-                    </p>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setImage(e.target.files[0])}
-                    />
-                    <p>
-                      Username<span>*</span>
-                    </p>
-                    <input type="text" onChange={(e) => setuserName(e.target.value)} />
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    <p>
-                      Account Password<span>*</span>
-                    </p>
-                    <input type="text" onChange={(e) => setPassword(e.target.value)} />
-                  </div>
-                  <div className={styles.checkout_input_checkbox}>
-                    <label htmlFor="diff-acc">
-                      Note about your order, e.g, special note for delivery
-                      <input type="checkbox" id="diff-acc" />
-                      <span className={styles.checkmark} />
-                    </label>
-                  </div>
-                  <div className={styles.checkout__input}>
-                    <p>
-                      Order notes<span>*</span>
-                    </p>
-                    <input
-                      type="text"
-                      placeholder="Notes about your order, e.g. special notes for delivery."
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-4 col-md-6">
-                  <div className={styles.checkout__order}>
-                    <h4 className={styles.order__title}>Your order</h4>
-                    <div className={styles.checkout_order_products}>
-                      Product <span>Total</span>
-                    </div>
-                    <ul className={styles.checkout_total_products}>
-                      {cartItems.map((item, index) => (
-                        <li key={index}>
-                          {index + 1}. {item.productName}×{item.quantity}
-                          <span style={{ color: "red" }}>
-                            ₹ {(item.quantity * item.offerprice).toFixed(2)}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className={styles.checkout_total_all}>
-                      <li>
-                        Subtotal <span>₹{calculateSubtotal()}</span>
-                      </li>
-                      <li>
-                        Discount <span>₹{totalAndDiscount.discountAmount}</span>
-                      </li>
-                      <li>
-                        Total <span>₹{totalAndDiscount.total}</span>
-                      </li>
-                    </ul>
-                    <div className={styles.checkout_input_checkbox}>
-                      <label htmlFor="acc-or">
-                        Create an account?
-                        <input type="checkbox" id="acc-or" />
-                        <span className={styles.checkmark} />
-                      </label>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <div className={styles.checkout_input_checkbox}>
-                      <label htmlFor="payment">
-                        Check Payment
-                        <input type="checkbox" id="payment" />
-                        <span className={styles.checkmark} />
-                      </label>
-                    </div>
-                    <div className={styles.checkout_input_checkbox}>
-                      <label htmlFor="paypal">
-                        Paypal
-                        <input type="checkbox" id="paypal" />
-                        <span className={styles.checkmark} />
-                      </label>
-                    </div>
-                    <div className={styles.checkout_input_checkbox}>
-                      <label htmlFor="">
-                        Cash on Delivery
-                        <input type="checkbox" id="cod" />
-                        <span className={styles.checkmark} />
-                      </label>
-                    </div>
-                    <button type="submit" className={styles.sitebtn} onClick={handlePlaceOrder}>
-                      PLACE ORDER
-                    </button>
-                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                  </div>
-                </div>
-              </Row>
-            </form>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-      <Footer />
-    </div>
+      </Dialog>
+    </DashboardLayout>
   );
 }
 
-export default Checkout;
+export default Order;

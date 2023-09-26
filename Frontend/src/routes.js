@@ -45,9 +45,13 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import AdminUsers from "layouts/Admin-Users/index";
-import AddAdmin from "layouts/Admin-Users/data/addAdmin"
-import EditAdmin from "layouts/Admin-Users/data/editAdmin"
-import EditProfile from "layouts/profile/data/editProfile"
+import UserManagement from "layouts/UserManagement/index";
+import OrderManagement from "layouts/OrderManagement/index";
+import AddAdmin from "layouts/Admin-Users/data/addAdmin";
+import AddUser from "layouts/UserManagement/data/addUser";
+import EditAdmin from "layouts/Admin-Users/data/editAdmin";
+import EditUser from "layouts/UserManagement/data/editUser";
+import EditProfile from "layouts/profile/data/editProfile";
 import CategoryManagement from "layouts/categoryManagement/data/category"
 import AddCategory from "layouts/categoryManagement/data/addCategory"
 import EditCategory from "layouts/categoryManagement/data/editCategory"
@@ -62,6 +66,7 @@ import Product from "UserFrontEnd/Product"
 import About from "UserFrontEnd/About"
 import Contact from "UserFrontEnd/Contact"
 import Checkout from "UserFrontEnd/Checkout";
+import Invoice from "UserFrontEnd/Invoice"
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -100,11 +105,29 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Admin-Users",
+    name: "Admin Management",
     key: "admin-users",
     route: "/admin-users",
     icon: <CustomerSupport size="12px" />,
     component: <AdminUsers />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "User Management",
+    key: "users",
+    route: "/Users",
+    icon: <CustomerSupport size="12px" />,
+    component: <UserManagement />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Order Management",
+    key: "Order",
+    route: "/Orders",
+    icon: <Shop size="12px" />,
+    component: <OrderManagement />,
     noCollapse: true,
   },
   {
@@ -118,11 +141,29 @@ const routes = [
   },
   {
     // type: "collapse",
+    name: "Add User",
+    key: "add-user",
+    route: "/addUser",
+    icon: <CustomerSupport size="12px" />,
+    component: <AddUser />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
     name: "Edit Admin",
     key: "edit-admin",
     route: "/editAdmin/:id",
     icon: <CustomerSupport size="12px" />,
     component: <EditAdmin />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Edit User",
+    key: "edit-User",
+    route: "/editUser/:id",
+    icon: <CustomerSupport size="12px" />,
+    component: <EditUser />,
     noCollapse: true,
   },
   {
@@ -331,6 +372,15 @@ const routes = [
     route: "/checkout",
     icon: <Shop size="12px" />,
     component: <Checkout />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Invoice",
+    key: "Invoice",
+    route: "/invoice",
+    icon: <Shop size="12px" />,
+    component: <Invoice />,
     noCollapse: true,
   },
   {

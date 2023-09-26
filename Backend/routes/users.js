@@ -2,6 +2,7 @@ var express=require('express');
 var router=express.Router();
 var multer=require('multer')
 var userController=require('../Controller/UserController');
+var orderController=require('../Controller/OrderController')
 // var usertoken=require('../Middlewares/UserToken')
 
 
@@ -19,8 +20,16 @@ var upload = multer({ storage: storage });
 router.post("/signUp",upload.single('image'), userController.userSignUp);
 router.post("/Login",userController.userLogin);
 
+//----------------User Management------------//
+router.get("/userList",userController.userList)
+router.delete("/delete/:id",userController.deleteUser)
+router.get("/getUserById/:id",userController.getUserById)
+router.put("/editUser/:id",upload.single('image'),userController.editUser)
+
 //----------------Order--------------------//
-router.post("/addOrder",userController.addOrder);
+router.post("/addOrder",orderController.addOrder);
+router.get("/orderListById/:id",orderController.orderListById);
+router.get("/orderLists",orderController.orderLists);
 
 //---------------Brand---------------------//
 router.get('/brandList',userController.brandList);

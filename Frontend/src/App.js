@@ -66,6 +66,7 @@ export default function App() {
     pathname == "/wishlist" ||
     pathname == "/checkout" ||
     pathname == "/UserSignUp" ||
+    pathname == "/invoice" ||
     pathname == "/UserLogin" ||
     pathname == "/user/registration" ||
     (pathname.search("productDetails")>-1)

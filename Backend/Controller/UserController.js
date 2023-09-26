@@ -116,41 +116,67 @@ module.exports={
           console.log('errorr...', err)
         }
       },
-    addOrder: async (req, res) => {
-        const { userId, cartItem, shippingDetails, billingDetails, total } = req.body;
-        console.log(req.body);
-    
-        const generateOrderID = () => {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0'); 
-            const day = String(now.getDate()).padStart(2, '0'); 
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const orderId = `${year}${month}${day}${hours}${minutes}${seconds}`;
-    
-            return orderId;
-        };
-    
+      userList: async (req, res) => {
+        console.log('hiiiiiiiiiiiiiiiii')
         try {
-            const orderId = generateOrderID();
-            let order = await orderModel.create({
-                userId: userId,
-                orderId: orderId,
-                cartItem: cartItem,
-                shippingDetails: shippingDetails,
-                billingDetails: billingDetails,
-                total: total,
-            });
-            console.log(order);
-            console.log(orderId);
-            res.status(200).json({ fieldRequired: false, message: 'order created' });
-    
-        } catch (err) {
-            console.log('Error in creating order', err);
-            res.status(500).json({ fieldRequired: false, message: 'Error creating order' });
+            let Users = await userModel.find();
+            console.log('looooooooo')
+            res.json(Users);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'error fetching  users', error: error });
         }
-    }
+    },
+        deleteUser: async (req, res) => {
+        const { id } = req.params;
+        try {
+            await userModel.findByIdAndDelete(id);
+            res.send("deleted successfully");
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "unable to deleted", error: error });
+        }
+    },
+    getUserById: async (req, res) => {
+        const { id } = req.params;
+        console.log(id)
+        console.log('sdjggggggggggggggggA')
+        try {
+            var user = await userModel.findById(id);
+            console.log(user)
+            res.json(user)
+        } catch (err) {
+            console.log(err)
+        }
+    },
+    editUser: async (req, res) => {
+        const { id } = req.params;
+        const { name, email, mobile, password } = req.body;
+        console.log(name);
+        try {
+            const user = await userModel.findById(id);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            user.name = name;
+            user.email = email;
+            user.mobile = mobile;
+            if (password) {
+                user.password = await bcrypt.hash(password, 10);
+            }
+            if (req.file && req.file.path) {
+                const newImage = req.file.path.replace(/\\/g, '/');
+                user.image = newImage;
+            }
+            await user.save();
+
+            console.log('User updated successfully');
+            console.log(user);
+            res.json({ message: 'User updated successfully' });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: 'Error updating user' });
+        }
+    },
     
 }

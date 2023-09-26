@@ -32,7 +32,8 @@ import Footer from "layouts/authentication/components/Footer";
 
 function CoverLayout({ color, header, title, description, image, top, children }) {
   return (
-    <PageLayout background="white">
+    <PageLayout background="white" 
+    width="94%">
       {/* <DefaultNavbar
         action={{
           type: "external",

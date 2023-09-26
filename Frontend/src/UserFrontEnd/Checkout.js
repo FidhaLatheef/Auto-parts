@@ -6,6 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import { event } from 'jquery'
 import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios'
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Checkout() {
     const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -17,6 +18,8 @@ function Checkout() {
     const [ErrorMessage, setErrorMessage] = useState(false);
     const [Exist, setExist] = useState(false);
     const [total, setTotal] = useState(0);
+    const navigate = useNavigate("");
+
     useEffect(() => {
         const totalValue = calculateCartTotal();
         setTotal(totalValue);
@@ -155,10 +158,14 @@ function Checkout() {
                 console.log("Order placed:", response.data);
                 localStorage.setItem("cart", JSON.stringify([]));
                 toast.success('Order placed successfully!', {
-                    duration: 4000, 
-                    position: 'top-right', 
+                    duration: 4000,
+                    position: 'top-right',
                 });
-            
+
+                setTimeout(() => {
+                    const orderDataWithId = { ...data, orderId: response.data.orderId };
+                    navigate("/invoice", { state: orderDataWithId });
+                }, 3000);
             })
             .catch((error) => {
                 console.error("Error placing order:", error.message);
