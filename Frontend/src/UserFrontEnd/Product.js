@@ -16,7 +16,7 @@ function Product() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(3);
+  const [productsPerPage, setProductsPerPage] = useState(4);
   useEffect(() => {
     fetchProducts();
     categoriesList();
@@ -231,10 +231,10 @@ function Product() {
                 </div>
               </div>
               {/* Product listing start */}
-              <section className={`${Styles.productListing} ${Styles.spad}`}>
-                <div>
+              <section className={`${Styles.productListing} ${Styles.spad}`} >
+              <div className={Styles.cardcontainer}>
                   <Row className="row">
-                    {currentProducts.map((product) => (
+                    {/* {currentProducts.map((product) => (
                       <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
                         <div className={Styles.car__item}>
                           <div className={Styles.car__item__pic__slider}>
@@ -245,6 +245,7 @@ function Product() {
                             />
                           </div>
                           <div className={Styles.productButtons}>
+
                             <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToCart(product)}>
                               <i className="material-icons">shopping_cart</i>
                             </button>
@@ -256,7 +257,7 @@ function Product() {
                             <div className={Styles.car__item__text__inner}>
                               <h4>{product.productName}</h4>
                               <p className={Styles.productPrice}>{product.price}</p>
-                              <p  style={{ maxWidth:"700px" }}>
+                              <p style={{ maxWidth: "700px" }}>
                                 {product.description}
                               </p>
 
@@ -264,9 +265,38 @@ function Product() {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                    ))} */}
+                     {currentProducts.map((product) => (
+                   <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
+                    <div className="card" style={{height:"100%"}} >
+
+                    <img className="card-img-top" src={`http://localhost:8000/${product.images[0]}`}
+                      alt={`Product: ${product.productName}`} />
+                    <div className="card-body">
+                      {/* <h5 className="card-title">Card title</h5> */}
+                      <div className={Styles.productButtons}>
+
+                        <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToCart(product)}>
+                          <i className="material-icons">shopping_cart</i>
+                        </button>
+                        <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToWishlist(product)}>
+                          <i className="material-icons">favorite</i>
+                        </button>
+                      </div>
+
+                      <h4>{product.productName}</h4>
+                      <p  className={Styles.productPrice}>{product.price}</p>
+                      <p className="card-text">{product.description}</p>
+                      
+                      {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                    </div>
+                    
+                  </div>
+                  </Link>
+                ))}
                   </Row>
                 </div>
+               
               </section>
               {/* Product listing End */}
               <div className={Styles.pagination__option}>

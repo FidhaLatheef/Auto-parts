@@ -50,7 +50,7 @@ function Tables() {
                     <Grid container spacing={6}>
                         <Grid item xs={12}>
                             <Card>
-                                <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3} style={{backgroundColor: "#74c3ed"}}>
+                                <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3} style={{backgroundColor: "#636362"}}>
                                     <SoftTypography variant="h6" color="white">Order Details</SoftTypography>
                                 </SoftBox>
                                 <SoftBox

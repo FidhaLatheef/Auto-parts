@@ -2,13 +2,15 @@ import React from 'react';
 import Styles from "css/style.module.css";
 import { Row } from 'react-bootstrap';
 import footerBg from "assets/images/footer-bg.jpg";
-import HeroBg from "assets/images/bgk.jpg"
+import HeroBg from "assets/images/Banner.jpg"
 
 function Footer() {
     return (
+        
         <footer className={`${Styles.footer} ${Styles.setbg}`} style={{
             backgroundImage: `url(${HeroBg})`,
             backgroundSize: '1350px',
+           width:"100%",
             backgroundRepeat: 'no-repeat', // Prevent repeating the image
             // backgroundPosition: 'center', // Center the image horizontally and vertically
         }}>
@@ -16,7 +18,7 @@ function Footer() {
                 <div className={Styles.footer__contact}>
                     <Row className="row">
                         <div className="col-lg-6 col-md-6">
-                            <div className={Styles.footer__contact__title}>
+                            <div style={{right:"600px"}} className={Styles.footer__contact__title}>
                                 <h2>Discover Quality Spare Parts for Your Vehicles !!!</h2>
                             </div>
                            

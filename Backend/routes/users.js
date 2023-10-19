@@ -3,6 +3,7 @@ var router=express.Router();
 var multer=require('multer')
 var userController=require('../Controller/UserController');
 var orderController=require('../Controller/OrderController')
+var otpController=require("../Controller/OtpController")
 // var usertoken=require('../Middlewares/UserToken')
 
 
@@ -25,11 +26,17 @@ router.get("/userList",userController.userList)
 router.delete("/delete/:id",userController.deleteUser)
 router.get("/getUserById/:id",userController.getUserById)
 router.put("/editUser/:id",upload.single('image'),userController.editUser)
+router.put("/changePassword/:id",userController.changePassword)
+
+router.post("/sendOTP",otpController.sendOtp);
+router.post("/verifyOTP",otpController.verifyOTP);
+router.post("/resetPassword",otpController.resetPassword);
 
 //----------------Order--------------------//
 router.post("/addOrder",orderController.addOrder);
 router.get("/orderListById/:id",orderController.orderListById);
 router.get("/orderLists",orderController.orderLists);
+router.post('/orderStatus/:id',orderController.addOrderStatus)
 
 //---------------Brand---------------------//
 router.get('/brandList',userController.brandList);

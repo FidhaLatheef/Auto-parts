@@ -41,7 +41,7 @@ function Tables() {
         <DashboardLayout>
             <DashboardNavbar />
             <SoftBox display="flex" justifyContent="flex-end" alignItems="center" p={3}>
-                <SoftButton variant="gradient" color="secondary" onClick={handleCreate}>
+                <SoftButton variant="gradient"style={{backgroundColor:"#c9c7c9",color:"white"}} onClick={handleCreate}>
                     Create
                 </SoftButton>
             </SoftBox>
@@ -50,7 +50,7 @@ function Tables() {
                     <Grid container spacing={6}>
                         <Grid item xs={12}>
                             <Card>
-                                <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3} style={{backgroundColor: "#74c3ed"}}>
+                                <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3} style={{backgroundColor: "#a36f77"}}>
                                     <SoftTypography variant="h6" color="white">User table</SoftTypography>
                                 </SoftBox>
                                 <SoftBox

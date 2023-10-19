@@ -9,6 +9,7 @@ const orderSchema = new mongoose.Schema({
             image: String,
             price: String,
             quantity: Number,
+            status:String
         }
     ],
     billingDetails:
@@ -35,7 +36,8 @@ const orderSchema = new mongoose.Schema({
         mobile: String,
         email: String,
     },
-    total: Number
+    total: Number,
+   
 
 })
 

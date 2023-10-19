@@ -67,7 +67,11 @@ export default function App() {
     pathname == "/checkout" ||
     pathname == "/UserSignUp" ||
     pathname == "/invoice" ||
+    pathname == "/enterOTP" ||
+    pathname == "/changePswrd" ||
     pathname == "/UserLogin" ||
+    pathname == "/userProfile" ||
+    pathname == "/forgotPswrd" ||
     pathname == "/user/registration" ||
     (pathname.search("productDetails")>-1)
   ) {
@@ -198,7 +202,7 @@ export default function App() {
       {template === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+        <Route path="*" element={<Navigate to="/UserHome" />} />
       </Routes>
     </ThemeProvider>
   );

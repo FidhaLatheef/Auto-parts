@@ -59,11 +59,11 @@ module.exports = {
         }
     },
     orderLists: async (req, res) => {
-        console.log('looooooooooooo')
+        // console.log('looooooooooooo')
         try {
-            console.log('hhiiiii')
+            // console.log('hhiiiii')
             let orderList = await orderModel.find()
-            console.log(orderList)
+            // console.log(orderList)
             res.json(orderList)
         } catch (err) {
             console.log(err)
@@ -71,5 +71,79 @@ module.exports = {
 
         }
 
-    }
+    },
+    // addOrderStatus:async(req,res)=>{
+    //     const{orderId,status}=req.body;
+    //     console.log(req.body)
+    //     const {id}=req.params;
+    //     console.log(id);
+
+    //     try {
+    //         // Find the order by orderId
+    //         const order = await orderModel.findOne({ orderId });
+    //         console.log(order);
+        
+    //         // Check if the order exists
+    //         if (!order) {
+    //           return { success: false, message: 'Order not found' };
+    //         }
+        
+    //         // Find the product within the cartItem array based on productId
+    //         const productToUpdate = order.cartItem.findIndex((product) => product.id.toString() === id);
+    //         console.log("uuuuuuuuuuuuuuu",productToUpdate);
+        
+    //         // Check if the product exists
+    //         if (!productToUpdate) {
+    //           return { success: false, message: 'Product not found in order' };
+    //         }
+
+    //         console.log("1",order.cartItem[productToUpdate].status);
+    //         // Update the status of the product
+    //         order.cartItem[productToUpdate].status = status;
+    //         console.log("2",order.cartItem[productToUpdate].status);
+        
+    //         // Save the updated order back to the database
+    //         await order.save();
+        
+    //         return { success: true, message: 'Status updated successfully' };
+    //       } catch (error) {
+    //         return { success: false, message: 'Error updating status: ' + error.message };
+    //       }
+    // },
+    addOrderStatus: async (req, res) => {
+        const { orderId, status } = req.body;
+        const { id } = req.params;
+    
+        try {
+          // Find the order by orderId
+          const order = await orderModel.findOne({ orderId });
+          console.log(order);
+    
+          // Check if the order exists
+          if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+          }
+    
+          // Find the product within the cartItem array based on productId
+          const productToUpdateIndex = order.cartItem.findIndex(
+            (product) => product.id === id
+          );
+    
+          // Check if the product exists
+          if (productToUpdateIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Product not found in order' });
+          }
+    
+          // Update the status of the product
+          order.cartItem[productToUpdateIndex].status = status;
+    
+          // Save the updated order back to the database
+          await order.save();
+    
+          return res.status(200).json({ success: true, message: 'Status updated successfully' });
+        } catch (error) {
+          console.error('Error updating status:', error);
+          return res.status(500).json({ success: false, message: 'Error updating status: ' + error.message });
+        }
+      },
 }

@@ -96,16 +96,16 @@ function data() {
     //   location: <Location location={item.location} />,
       edit: (
         <SoftBox>
-          <SoftButton color="info" size="small" component={Link}
+          <SoftButton  size="small" component={Link}
             to={`/editUser/${item._id}`}
-            style={{ marginRight: '8px' }}>
+            style={{ marginRight: '8px', backgroundColor:"#a36f77",color:"white" }}>
             Edit
           </SoftButton>
         </SoftBox>
       ),
       remove: (
         <SoftBox>
-          <SoftButton color="secondary" size="small" onClick={() => handleDelete(item._id)}>
+          <SoftButton style={{backgroundColor:"#9e9d9e",color:"white"}} size="small" onClick={() => handleDelete(item._id)}>
             Remove
           </SoftButton>
         </SoftBox>

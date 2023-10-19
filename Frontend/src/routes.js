@@ -83,6 +83,10 @@ import Wishlist from "UserFrontEnd/Wishlist"
 import ProductDetails from "UserFrontEnd/productDetails"
 import UserSignUp from "UserFrontEnd/userSignUp";
 import UserLogin from "UserFrontEnd/userLogin";
+import ForgotPswrd from "UserFrontEnd/forgotPswrd"
+import EnterOTP from "UserFrontEnd/enterOtp";
+import ChangePswrd from "UserFrontEnd/ChangePswrd";
+import UserProfile from "UserFrontEnd/userProfile";
 
 const routes = [
   {
@@ -408,6 +412,42 @@ const routes = [
     route: "/UserLogin",
     icon: <Shop size="12px" />,
     component: <UserLogin />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "forgotPswrd",
+    key: "forgotPswrd",
+    route: "/forgotPswrd",
+    icon: <Shop size="12px" />,
+    component: <ForgotPswrd />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "EnterOTP",
+    key: "EnterOTP",
+    route: "/enterOTP",
+    icon: <Shop size="12px" />,
+    component: <EnterOTP />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "ChangePswrd",
+    key: "ChangePswrd",
+    route: "/changePswrd",
+    icon: <Shop size="12px" />,
+    component: <ChangePswrd />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "UserProfile",
+    key: "UserProfile",
+    route: "/userProfile",
+    icon: <Shop size="12px" />,
+    component: <UserProfile />,
     noCollapse: true,
   },
 ];

@@ -1,0 +1,61 @@
+/* UserProfile.css */
+
+.userprofilecontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .userprofilecard {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .userprofilecard img {
+    max-width: 100%;
+    border-radius: 50%;
+  }
+  
+  .userprofilecard button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .accountdetailscard {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px;
+  }
+  
+  .accountdetailscard label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .accountdetailscard input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .account-detailscard button {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  

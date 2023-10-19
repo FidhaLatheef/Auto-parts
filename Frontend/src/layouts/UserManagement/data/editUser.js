@@ -26,13 +26,7 @@ function EditUser() {
     image:''
   });
 
-  // const [nameError, setNameError] = useState('');
-  // const [emailError, setEmailError] = useState('');
-  // const [mobileError, setMobileError] = useState('');
-  // const [passwordError, setPasswordError] = useState('');
-  // const [locationError, setLocationError] = useState('');
-  // const [roleError, setRoleError] = useState('');
-  // const [imageError, setImageError] = useState('');
+  
 
   const handleChange = (e) => {
     setUser({

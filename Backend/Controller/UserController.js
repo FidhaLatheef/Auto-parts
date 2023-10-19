@@ -178,5 +178,42 @@ module.exports={
             res.status(500).json({ message: 'Error updating user' });
         }
     },
+    changePassword:async (req,res)=>{
+        const userId = req.params.id; // Get the user's ID from the URL
+        const { oldPassword, newPassword } = req.body; // Get current and new passwords from the request body
+        console.log('Received oldPassword:', oldPassword);
+        console.log('Received newPassword:', newPassword);
+        try {
+          // Find the user by ID
+          const user = await userModel.findById(userId);
+          console.log('User password from database:', user.password);
+      
+          // If the user doesn't exist, return an error
+          if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+          }
+      
+          // Check if the current password matches the one in the database
+          const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+      
+          // If the current password is not valid, return an error
+          if (!isPasswordValid) {
+            console.log("uuuuuuuuuuuuuuuuuuuuuu")
+            return res.status(405).json({ oldError:true, message: 'Current password is incorrect' });
+          }
+      
+          // Hash the new password
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+      
+          // Update the user's password in the database
+          user.password = hashedPassword;
+          await user.save();
+      
+          return res.status(200).json({ message: 'Password updated successfully' });
+        } catch (error) {
+          console.error('Error updating password:', error);
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+    }
     
 }

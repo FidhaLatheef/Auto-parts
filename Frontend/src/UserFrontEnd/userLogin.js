@@ -115,7 +115,7 @@ function UserLogin() {
                                             </div>
                                             {/* Forgot Password link */}
                                             <div className="mb-3">
-                                                <a href="#">Forgot password?</a>
+                                                <a href="/forgotPswrd">Forgot password?</a>
                                             </div>
                                             {/* Sign In button */}
                                             <button

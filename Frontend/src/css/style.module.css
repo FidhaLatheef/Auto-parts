@@ -124,6 +124,12 @@ ol {
 	padding: 0 15px;
 	
 }
+.cardcontent{
+	height: 100%; /* Set a fixed height for the card content */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
 .featurecontainer {
 	margin-left: 200px;
 	margin-right: 250px;
@@ -139,7 +145,8 @@ ol {
 .servicecontainer {
 	margin-left: 80px;
 	margin-right: 50px;
-	height: 750px;
+	margin-top: 145px;
+	height: auto;
 	/* display: flex; */
     /* justify-content: space-between; */
     /* align-items: center; */
@@ -176,6 +183,7 @@ ol {
 }
 .sectiontitle {
 	margin-bottom: 75px;
+	margin-top: -68px;
 	text-align: center;
 }
 
@@ -586,6 +594,12 @@ ol {
 .canvas__open {
 	display: none;
 }
+.userImage{
+	height: 30px;
+	width: 32px;
+	border-radius: 24px;
+	margin-right: 5px;
+}
 
 /*---------------------
   Hero
@@ -847,6 +861,7 @@ ol {
 .feature__text .sectiontitle {
 	text-align: left;
 	margin-bottom: 34px;
+	margin-top: -177px;
 }
 
 .feature__text .sectiontitle h2 {
@@ -1122,7 +1137,7 @@ ol {
 
 .car__item {
 	margin-bottom: 30px;
-	height: 500px;
+	height: 370px;
 }
 
 .car__item__pic__slider img {
@@ -1471,7 +1486,7 @@ ol {
 
 .footer__contact__title h2 {
 	font-size: 40px;
-	color: #a59494ad;
+	color: #fffcfc;
 	font-weight: 700;
 }
 
@@ -4210,6 +4225,28 @@ th, td {
 	color: white;
 	border-radius: 10px;
   }
+  /* style.module.css or style.css */
+.notificationBadge {
+    position: absolute;
+    top: 36px; /* Adjust the top position as needed */
+    right: 165px; /* Adjust the right position as needed */
+    background-color:#c92014;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 8px;
+    font-size: 10px;
+}
+.notificationBadges {
+    position: absolute;
+    top: 36px; /* Adjust the top position as needed */
+    right: 120px; /* Adjust the right position as needed */
+    background-color: #c92014;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 8px;
+    font-size: 10px;
+}
+
   /* .productdescription{
 	max-width: min-content;
   } */
