@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "../css/style3.module.css"
+import Styles from "../css/style.module.css"
 import Header from "UserFrontEnd/components/Header"
 import Footer from "UserFrontEnd/components/Footer"
 import { Col, Row } from 'react-bootstrap'
@@ -7,6 +8,8 @@ import { event } from 'jquery'
 import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useLocation, useNavigate } from "react-router-dom";
+import { Icon } from '@mui/material'
+import HeroBg from "assets/images/breadcrumb-bg.jpg"
 
 function Checkout() {
     const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -174,10 +177,28 @@ function Checkout() {
     }
 
     return (
-        <div>
+        <div className={Styles.home}>
             <Toaster />
             <Header />
+            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Checkout</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Checkout</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {/* Checkout Section Begin */}
+
             <section className={`${styles.checkout} ${styles.spad}`}>
                 <div className={styles.container} style={{ marginLeft: "80px" }}>
                     <div className={styles.checkout__form}>

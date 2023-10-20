@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Styles from "../css/style.module.css";
 import Header from "UserFrontEnd/components/Header";
 import Footer from "UserFrontEnd/components/Footer";
+import { Icon } from '@mui/material';
+import HeroBg from "assets/images/breadcrumb-bg.jpg"
 
 function Cart() {
     const initialCart =JSON.parse(localStorage.getItem("cart")) || [];
@@ -39,8 +41,25 @@ function Cart() {
     return (
         <div className={Styles.home}>
             <Header />
+            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Cart</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Cart</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className={Styles.wishcontainer}>
-                <h1 className={Styles.carthead}>My Cart</h1>
+                {/* <h1 className={Styles.carthead}>My Cart</h1> */}
                 <div className={Styles.cart}>
                     <table>
                         <tbody>

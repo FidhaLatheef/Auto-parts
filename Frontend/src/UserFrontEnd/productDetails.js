@@ -97,20 +97,30 @@ function ProductDetails() {
       };
 
     return (
-        <div>
+        <div >
             <Header />
-            <div className={`${styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>
-                <div className="col-lg-12 text-center">
-                    <div className={styles.breadcrumb__text}>
-                        <h2>Product Details</h2>
+            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Product Details</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Product Details</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={Styles.tabcontent} style={{ marginTop: "10px" }}>
+            <div className={Styles.tabcontent} style={{ marginTop: "50px" }}>
                 <Tab.Container activeKey={activeTab}>
                     <Row className="row" >
                         <Col className="col-lg-4 col-md-5">
-                            <PerfectScrollbar style={{ height: "450px" }}>
+                            <PerfectScrollbar style={{ height: "350px" }}>
                                 <Nav
                                     className={`${Styles.nav} ${Styles.navtabs}`}
                                     role="tablist"
@@ -122,7 +132,7 @@ function ProductDetails() {
                                                 eventKey={`tabs-${index + 1}`}
                                                 onClick={() => handleTabClick(`tabs-${index + 1}`)}
                                             >
-                                                <img src={imagePreview[index]} alt="" style={{ width: "400px", height: "200px" }} />
+                                                <img src={imagePreview[index]} alt="" style={{ width: "800px", height: "100px" }} />
                                             </Nav.Link>
                                         </Nav.Item>
                                     ))}
@@ -143,7 +153,7 @@ function ProductDetails() {
                     </Row>
                 </Tab.Container>
             </div>
-            <div className={styles.productInfo} >
+            <div className={styles.productInfo} style={{marginTop:"100px"}} >
                 <h1>{product.productName}</h1>
                 <div className={Styles.rating}>
                     <Icon> <span className="material-symbols-outlined">

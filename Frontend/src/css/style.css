@@ -1567,18 +1567,12 @@ ol {
 .breadcrumb__links a {
 	font-size: 15px;
 	color: #ffffff;
-	margin-right: 18px;
+	margin-right: 5px;
 	display: inline-block;
 	position: relative;
 }
 
-.breadcrumb__links a:after {
-	position: absolute;
-	right: -15px;
-	top: 0;
-	content: "";
-	font-family: "FontAwesome";
-}
+
 
 .breadcrumb__links a i {
 	color: #db2d2e;

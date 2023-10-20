@@ -6,6 +6,7 @@ import { Row } from 'react-bootstrap';
 import axios from 'axios';
 import HeroBg from 'assets/images/breadcrumb-bg.jpg';
 import { Link } from 'react-router-dom';
+import { Icon } from '@mui/material';
 
 function Product() {
   const [categoryList, setCategoryList] = useState([]);
@@ -160,13 +161,23 @@ function Product() {
   return (
     <div className={Styles.home}>
       <Header />
-      <div className={`${Styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>
-        <div className="col-lg-12 text-center">
-          <div className={Styles.breadcrumb__text}>
-            <h2>Products</h2>
-          </div>
-        </div>
-      </div>
+      <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Products</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Products</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
       {/* Car Section Begin */}
       <section className={`${Styles.car} ${Styles.spad}`}>
         <div className={Styles.carcontainer}>

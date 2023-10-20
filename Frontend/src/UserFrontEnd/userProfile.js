@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Header from "UserFrontEnd/components/Header"
 import Footer from "UserFrontEnd/components/Footer"
 import styles from "../css/style1.module.css";
+import HeroBg from "assets/images/breadcrumb-bg.jpg"
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { Icon } from '@mui/material';
 
 function userProfile() {
     const { id } = useParams();
@@ -101,6 +103,9 @@ function userProfile() {
         setShowProfileForm(false);
         setShowChangePasswordForm(true);
     };
+    const handleorder = () => {
+       window.location.href="/orders"
+    };
 
     const handlePasswordChange = async () => {
         try {
@@ -148,6 +153,23 @@ function userProfile() {
     return (
         <>
             <Header />
+            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Profile</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Profile</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="container-xl px-4 mt-4">
                 {/* <hr className="mt-0 mb-4" /> */}
                 <div className="row">
@@ -162,6 +184,7 @@ function userProfile() {
                                 <div className={styles.buttonWrapper}>
                                     <button className="btn btn-primary" type="button" onClick={handleEditProfileClick}>Edit Profile</button>
                                     <button className="btn btn-primary" type="button" onClick={handleChangePasswordClick}>Change Password</button>
+                                    <button className="btn btn-primary" type="button" onClick={handleorder}>Orders</button>
                                     <button className="btn btn-primary" type="button" onClick={handleLogoutClick}>Logout</button>
                                 </div>
                             </div>

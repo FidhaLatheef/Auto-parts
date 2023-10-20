@@ -4,6 +4,7 @@ import Header from "UserFrontEnd/components/Header"
 import Footer from "UserFrontEnd/components/Footer"
 import { Row } from 'react-bootstrap'
 import HeroBg from "assets/images/breadcrumb-bg.jpg"
+import { Icon } from '@mui/material'
 
 function Wishlist() {
   const initialWish = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -42,13 +43,23 @@ function Wishlist() {
   return (
     <div className={Styles.home}>
       <Header />
-      <div className={`${Styles.breadcrumboption} ${Styles.setbg}`} style={{ backgroundImage: `url(${HeroBg})` }}>
-        <div className="col-lg-12 text-center">
-          <div className={Styles.breadcrumb__text}>
-            <h2>Wishlist</h2>
-          </div>
-        </div>
-      </div>
+      <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Wishlist</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Wishlist</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
       {/*Product listing start*/}
       <section className={`${Styles.productListing} ${Styles.spad}`}>
         <div className={Styles.wishcontainer}>
@@ -60,6 +71,7 @@ function Wishlist() {
                     <div className={Styles.car__item__pic__slider}>
                       <img src={item.image} alt={item.productname} style={{ height: "auto" }} />
                     </div>
+                     <h4>{item.productname}</h4>
                     <div className={Styles.productButtons}>
                       <button
                         className={`${Styles.cartBtn} ${Styles.productBtn}`}
@@ -74,6 +86,7 @@ function Wishlist() {
                         <i className="material-icons">favorite</i>
                       </button>
                     </div>
+                   
                     <div className={Styles.car__item__text}>
                       <div className={Styles.car__item__text__inner}>
                         <h4>{item.productname}</h4>

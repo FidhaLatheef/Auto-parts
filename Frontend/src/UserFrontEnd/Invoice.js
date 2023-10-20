@@ -1,6 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import Styles from "../css/style.module.css"
+import Header from "UserFrontEnd/components/Header"
+import Footer from "UserFrontEnd/components/Footer"
+import { Icon } from '@mui/material';
+import HeroBg from "assets/images/breadcrumb-bg.jpg"
+import { Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 function Invoice() {
   const [order, setOrder] = useState(null);
@@ -26,22 +34,44 @@ function Invoice() {
       }
     }
   };
+  const continueShoping =()=>{
+    window.location.href="/product"
+ };
 
   useEffect(() => {
     // Log the order data here
     console.log(order);
   }, [order]); // Watch the 'order' state
+
   return (
-    <div>
-      <div className="container">
+    <div className={Styles.home}>
+       <Header />
+       <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Invoice</h2>
+                                <div className="breadcrumb__links">
+                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
+                                        house
+                                    </span></Icon> Home -</a>
+                                    <span>Invoice</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      <div className="container" style={{marginTop:"20px"}}>
         <div className="row">
           <div className="col-12">
-            <div className="card">
+            <div className="card" style={{border:"none"}}>
               {order && (
               <div className="card-body p-0">
-                <div className="row p-5">
+                <div className="row p-5" style={{backgroundColor:"#e8eaed",borderRadius:"5px",boxShadow:"60px"}}>
                   <div className="col-md-6 text-right">
-                    <h3 className="font-weight-bold mb-1">Invoice</h3>
+                    <h3 className="font-weight-bold mb-1">INVOICE</h3>
                     <p className="text-muted">Order ID : {order.orderId}</p>
                     <p className="text-muted">Order Date : {new Date().toLocaleDateString()}</p>
                   </div>
@@ -112,6 +142,10 @@ function Invoice() {
                     <div className="mb-2">Total amount</div>
                     <div className="h2 font-weight-light">${order.total}</div>
                   </div>
+                  <div className="py-3 px-5 text-left">
+                      {/* <Link to="/UserHome" className="btn btn-secondary">Back to Home</Link> */}
+                      <button style={{marginRight:"500px",marginTop:"15px",backgroundColor:"#cdd1ce",color:"#252626"}} className={Styles.continueshoppingbtn} onClick={continueShoping}>Continue Shopping</button>
+                    </div>
                 </div>
               </div>
                )}
@@ -121,7 +155,7 @@ function Invoice() {
         <div className="text-light mt-5 mb-5 text-center small">by : <a className="text-light" target="_blank" rel="noreferrer" href="http://totoprayogo.com">totoprayogo.com</a></div>
 
       </div>
-
+      <Footer/>
 
     </div>
   )
