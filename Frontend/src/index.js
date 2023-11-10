@@ -18,6 +18,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 // Soft UI Dashboard React Context Provider
 import { SoftUIControllerProvider } from "context";

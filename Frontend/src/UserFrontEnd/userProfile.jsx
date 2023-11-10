@@ -7,12 +7,16 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { Icon } from '@mui/material';
+import PasswordIcon from '@mui/icons-material/Password';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+
 
 function userProfile() {
     const { id } = useParams();
     const userProfile = JSON.parse(localStorage.getItem("userProfile"))
     const [showProfileForm, setShowProfileForm] = useState(true);
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+    const [heading, setHeading] = useState('ACCOUNT DETAILS');
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -93,18 +97,20 @@ function userProfile() {
             console.log('Error updating user:', error);
         }
     };
-
     const handleEditProfileClick = () => {
         setShowProfileForm(true);
         setShowChangePasswordForm(false);
+        setHeading('ACCOUNT DETAILS');
     };
 
     const handleChangePasswordClick = () => {
         setShowProfileForm(false);
         setShowChangePasswordForm(true);
+        setHeading('CHANGE PASSWORD');
     };
+
     const handleorder = () => {
-       window.location.href="/orders"
+       window.location.href="/viewOrder"
     };
 
     const handlePasswordChange = async () => {
@@ -141,8 +147,6 @@ function userProfile() {
         }
     };
     
-    
-
     const handleLogoutClick = () => {
         localStorage.removeItem('userProfile');
         localStorage.removeItem("profileFormState");
@@ -153,7 +157,7 @@ function userProfile() {
     return (
         <>
             <Header />
-            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+            {/* <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -169,34 +173,48 @@ function userProfile() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="container-xl px-4 mt-4">
-                {/* <hr className="mt-0 mb-4" /> */}
-                <div className="row">
-                    <div className="col-xl-4" style={{marginBottom:"40px"}}>
-                        
-                        <div className="card mb-4 mb-xl-0" >
-                            <div className={styles.cardheader}>User Profile</div>
-                            <div className="card-body text-center">
-                               
-                                <img className="img-account-profile rounded-circle mb-2" src={`http://localhost:8000/${userProfile.image}`} alt />
-        
-                                <div className={styles.buttonWrapper}>
-                                    <button className="btn btn-primary" type="button" onClick={handleEditProfileClick}>Edit Profile</button>
-                                    <button className="btn btn-primary" type="button" onClick={handleChangePasswordClick}>Change Password</button>
-                                    <button className="btn btn-primary" type="button" onClick={handleorder}>Orders</button>
-                                    <button className="btn btn-primary" type="button" onClick={handleLogoutClick}>Logout</button>
+            </div> */}
+            <section style={{ backgroundColor: '#eee' }}>
+                <div className="container py-5">
+                    <div className="row">
+                        <div className="col-lg-4">
+                        <h3 className='text-center text-muted pb-4' >PROFILE</h3>
+                            <div className="card mb-4">
+                                <div className="card-body text-center">
+                                    <img  src={`http://localhost:8000/${userProfile.image}`}  alt="avatar" className="rounded-circle img-fluid" style={{ width: 150 }} />
+                                    <h3 style={{marginTop:"5px"}} className="text-muted mb-2">{user.name}</h3>
+                                    <p className="text-muted mb-1">{user.email}</p>
+                                    <p className="text-muted mb-4">{user.mobile}</p>
+                                    <div className="d-flex justify-content-center gap-3 mb-3">
+                                        <button className="ripple ripple-surface btn btn-primary btn-warning" role="button" onClick={handleEditProfileClick}>Edit</button>
+                                        <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-danger" role="button"  onClick={handleLogoutClick}>Logout</button>
+                                        </div>
+                                </div>
+                            </div>
+                            <div className="card mb-4 mb-lg-0">
+                                <div className="card-body p-0">
+                                    <ul className="list-group list-group-flush rounded-3">
+                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3" onClick={handleChangePasswordClick}>
+                                            <PasswordIcon/>
+                                            <p className="mb-0">Change Password</p>
+                                        </li>
+                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3" onClick={handleorder}>
+                                            <AssignmentIcon/>
+                                            <p className="mb-0">Orders</p>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-xl-8">
-                        {/* Account details card*/}
+                        <div className="col-lg-8">
+                         <h3 className='text-center text-muted pb-4'>{heading}</h3>
                         {showProfileForm && (
-                            <div className="card mb-4">
-                                <div className={styles.cardheader}>Account Details</div>
+                            
+                                <div className="card mb-4">
+                                   
                                 <div className="card-body">
                                     <form>
+                                   
                                         <div className="form-group row">
                                             <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Name</label>
                                             <div className="col-sm-10">
@@ -238,11 +256,9 @@ function userProfile() {
 
                                 </div>
                             </div>
-                        )}
-                        {/* Change Password card */}
-                        {showChangePasswordForm && (
+                            )}
+                             {showChangePasswordForm && (
                             <div className="card mb-4">
-                                <div className="card-header">Change Password</div>
                                 <div className="card-body">
                                     <form>
                                     <div className="mb-3">
@@ -258,24 +274,15 @@ function userProfile() {
                                             <input className="form-control" id="inputConfirmPassword" type="password" placeholder="Confirm your new password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
                                         </div>
                                         <Toaster />
-                                        {/* {passwordChangeSuccess && (
-                                            <div className="alert alert-success" role="alert">
-                                                Password changed successfully!
-                                            </div>
-                                        )}
-                                        {!passwordChangeSuccess && (
-                                            <div className="alert alert-danger" role="alert">
-                                                Password change failed. Please make sure the passwords match.
-                                            </div>
-                                        )} */}
                                         <button className="btn btn-primary" type="button" onClick={handlePasswordChange}>Confirm</button>
                                     </form>
                                 </div>
                             </div>
                         )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             <Footer />
         </>
 

@@ -87,6 +87,9 @@ import ForgotPswrd from "UserFrontEnd/forgotPswrd"
 import EnterOTP from "UserFrontEnd/enterOtp";
 import ChangePswrd from "UserFrontEnd/ChangePswrd";
 import UserProfile from "UserFrontEnd/userProfile";
+import Prof from "UserFrontEnd/prof";
+import ViewOrder from "UserFrontEnd/viewOrder";
+
 
 const routes = [
   {
@@ -450,6 +453,25 @@ const routes = [
     component: <UserProfile />,
     noCollapse: true,
   },
+  {
+    // type: "collapse",
+    name: "Prof",
+    key: "Prof",
+    route: "/prof",
+    icon: <Shop size="12px" />,
+    component: <Prof />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "ViewOrder",
+    key: "ViewOrder",
+    route: "/viewOrder",
+    icon: <Shop size="12px" />,
+    component: <ViewOrder />,
+    noCollapse: true,
+  },
+ 
 ];
 
 export default routes;

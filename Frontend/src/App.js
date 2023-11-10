@@ -68,7 +68,9 @@ export default function App() {
     pathname == "/UserSignUp" ||
     pathname == "/invoice" ||
     pathname == "/enterOTP" ||
+    pathname == "/prof" ||
     pathname == "/changePswrd" ||
+    pathname == "/viewOrder" ||
     pathname == "/UserLogin" ||
     pathname == "/userProfile" ||
     pathname == "/forgotPswrd" ||
