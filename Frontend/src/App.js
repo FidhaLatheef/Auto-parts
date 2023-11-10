@@ -41,7 +41,7 @@ import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
 import routes from "routes";
-
+import dotenv from "dotenv";
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
 

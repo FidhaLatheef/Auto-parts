@@ -247,7 +247,7 @@ function userProfile() {
                                     <form>
                                     <div className="mb-3">
                                             <label className="small mb-1" htmlFor="inputNewPassword">Old Password</label>
-                                            <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your new password"value={oldPassword} onChange={(e)=>setOldPassword(e.target.value)}/>
+                                            <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your old password"value={oldPassword} onChange={(e)=>setOldPassword(e.target.value)}/>
                                         </div>
                                         <div className="mb-3">
                                             <label className="small mb-1" htmlFor="inputNewPassword">New Password</label>
