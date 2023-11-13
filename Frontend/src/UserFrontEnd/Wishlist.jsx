@@ -5,6 +5,7 @@ import Footer from "UserFrontEnd/components/Footer"
 import { Row } from 'react-bootstrap'
 import HeroBg from "assets/images/breadcrumb-bg.jpg"
 import { Icon } from '@mui/material'
+import emptyWishlistImage from "assets/images/emwish.png"
 
 function Wishlist() {
   const initialWish = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -12,12 +13,12 @@ function Wishlist() {
 
   const handleAddToCart = (product) => {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const isProductInCart = existingCart.some((item) => item.id === product._id);
+    const isProductInCart = existingCart.some((item) => item.id === product.id);
 
     if (!isProductInCart) {
       const cartItem = {
-        id: product._id,
-        productname: product.productName,
+        id: product.id,
+        productname: product.productname,
         image: product.image,
         price: product.price,
         quantity: 1,
@@ -31,8 +32,8 @@ function Wishlist() {
     } else {
       alert('Product is already in the cart');
     }
-
   };
+
   const handleRemoveWishlist = (index) => {
     alert('Are you sure want to remove this item??')
     const updatedWish = [...wishlisttItems];
@@ -43,7 +44,7 @@ function Wishlist() {
   return (
     <div className={Styles.home}>
       <Header />
-      <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+      {/* <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -59,51 +60,53 @@ function Wishlist() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
       {/*Product listing start*/}
-      <section className={`${Styles.productListing} ${Styles.spad}`}>
-        <div className={Styles.wishcontainer}>
-          <Row className="row">
-            {wishlisttItems
-              .map((item, index) => (
-                <div key={index} className="col-lg-3 col-md-4 col-sm-6">
-                  <div className={Styles.car__item}>
-                    <div className={Styles.car__item__pic__slider}>
-                      <img src={item.image} alt={item.productname} style={{ height: "auto" }} />
-                    </div>
-                     <h4>{item.productname}</h4>
-                    <div className={Styles.productButtons}>
-                      <button
-                        className={`${Styles.cartBtn} ${Styles.productBtn}`}
-                        onClick={() => handleAddToCart(item)}
-                      >
-                        <i className="material-icons">shopping_cart</i>
-                      </button>
-                      <button
-                        className={`${Styles.cartBtn} ${Styles.productBtn}`}
-                        onClick={() => handleRemoveWishlist(index)}
-                      >
-                        <i className="material-icons">favorite</i>
-                      </button>
-                    </div>
-                   
-                    <div className={Styles.car__item__text}>
-                      <div className={Styles.car__item__text__inner}>
-                        <h4>{item.productname}</h4>
-                        <p className={Styles.productPrice}>{item.price}</p>
-                        <p>{item.description}</p>
+      <section className="h-100" style={{ backgroundColor: '#eee' }}>
+        <div className="container h-100 py-5">
+          <h3 className='text-center text-muted pb-4' >WISHLIST</h3>
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-10">
+              {wishlisttItems.length === 0 ? (
+                <div className="text-center">
+                  <img src={emptyWishlistImage} alt="Empty Wishlist" />
+                  <p>Ooops</p>
+                  <span style={{ fontWeight: 'bold', color: 'black', fontSize: "25px" }}>Your wishlist is </span>
+                  <span style={{ fontWeight: 'bold', color: '#c92014', fontSize: "27px" }}> Empty..!!!</span>
+                </div>
+              ) : (
+                wishlisttItems
+                  .map((item, index) => (
+                    <div key={index} className="card rounded-3 mb-4">
+                      <div className="card-body p-4">
+                        <div className="row d-flex justify-content-between align-items-center">
+                          <div className="col-md-2 col-lg-2 col-xl-2">
+                            <img src={item.image} alt="Cotton T-shirt" />
+                          </div>
+                          <div className="col-md-3 col-lg-3 col-xl-3">
+                            <p className="lead fw-normal mb-2">{item.productname}</p>
+                            <p><span className="text-muted">Price: </span>₹{item.price} </p>
+                          </div>
+                          <div className="col-md-3 col-lg-3 col-xl-3">
+                            <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-danger ms-1" role="button" onClick={() => handleAddToCart(item)}>Add to Cart</button>
 
+                          </div>
+                          <div className="col-md-3 col-lg-3 col-xl-3">
+                            <button className="ripple ripple-surface btn btn-primary btn-warning" role="button" onClick={() => handleRemoveWishlist(index)}>Remove Wishlist</button>
+
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-          </Row>
-        </div>
+                  ))
+              )}
 
+            </div>
+          </div>
+        </div>
       </section>
       {/*Product listing End*/}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

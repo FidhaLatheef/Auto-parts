@@ -27,7 +27,7 @@ function userProfile() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordChangeSuccess, setPasswordChangeSuccess] = useState(false);
-    const [oldPassword,setOldPassword]=useState('')
+    const [oldPassword, setOldPassword] = useState('')
 
     const handleChange = (e) => {
         setUser({
@@ -110,7 +110,7 @@ function userProfile() {
     };
 
     const handleorder = () => {
-       window.location.href="/viewOrder"
+        window.location.href = "/viewOrder"
     };
 
     const handlePasswordChange = async () => {
@@ -118,19 +118,19 @@ function userProfile() {
             if (newPassword === confirmPassword) {
                 const response = await axios.put(
                     `http://localhost:8000/user/changePassword/${userProfile.id}`,
-                    { newPassword, oldPassword }, 
+                    { newPassword, oldPassword },
                     {
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     }
-                );   
+                );
                 if (response.data.message === 'Password updated successfully') {
                     toast.success('Password changed successfully!', {
                         duration: 3000,
                     });
                     setPasswordChangeSuccess(true);
-                } 
+                }
             } else {
                 toast.error('New Password and Confirm Password do not match', {
                     duration: 3000,
@@ -146,7 +146,7 @@ function userProfile() {
             }
         }
     };
-    
+
     const handleLogoutClick = () => {
         localStorage.removeItem('userProfile');
         localStorage.removeItem("profileFormState");
@@ -178,28 +178,28 @@ function userProfile() {
                 <div className="container py-5">
                     <div className="row">
                         <div className="col-lg-4">
-                        <h3 className='text-center text-muted pb-4' >PROFILE</h3>
+                            <h3 className='text-center text-muted pb-4' >PROFILE</h3>
                             <div className="card mb-4">
                                 <div className="card-body text-center">
-                                    <img  src={`http://localhost:8000/${userProfile.image}`}  alt="avatar" className="rounded-circle img-fluid" style={{ width: 150 }} />
-                                    <h3 style={{marginTop:"5px"}} className="text-muted mb-2">{user.name}</h3>
+                                    <img src={`http://localhost:8000/${userProfile.image}`} alt="avatar" className="rounded-circle img-fluid" style={{ width: 150 }} />
+                                    <h3 style={{ marginTop: "5px" }} className="text-muted mb-2">{user.name}</h3>
                                     <p className="text-muted mb-1">{user.email}</p>
                                     <p className="text-muted mb-4">{user.mobile}</p>
                                     <div className="d-flex justify-content-center gap-3 mb-3">
                                         <button className="ripple ripple-surface btn btn-primary btn-warning" role="button" onClick={handleEditProfileClick}>Edit</button>
-                                        <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-danger" role="button"  onClick={handleLogoutClick}>Logout</button>
-                                        </div>
+                                        <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-danger" role="button" onClick={handleLogoutClick}>Logout</button>
+                                    </div>
                                 </div>
                             </div>
                             <div className="card mb-4 mb-lg-0">
                                 <div className="card-body p-0">
                                     <ul className="list-group list-group-flush rounded-3">
                                         <li className="list-group-item d-flex justify-content-between align-items-center p-3" onClick={handleChangePasswordClick}>
-                                            <PasswordIcon/>
+                                            <PasswordIcon />
                                             <p className="mb-0">Change Password</p>
                                         </li>
                                         <li className="list-group-item d-flex justify-content-between align-items-center p-3" onClick={handleorder}>
-                                            <AssignmentIcon/>
+                                            <AssignmentIcon />
                                             <p className="mb-0">Orders</p>
                                         </li>
                                     </ul>
@@ -207,83 +207,83 @@ function userProfile() {
                             </div>
                         </div>
                         <div className="col-lg-8">
-                         <h3 className='text-center text-muted pb-4'>{heading}</h3>
-                        {showProfileForm && (
-                            
-                                <div className="card mb-4">
-                                   
-                                <div className="card-body">
-                                    <form>
-                                   
-                                        <div className="form-group row">
-                                            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Name</label>
-                                            <div className="col-sm-10">
-                                                <input name="name" type="email" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.name}
-                                                    onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Email</label>
-                                            <div className="col-sm-10">
-                                                <input name="email" type="email" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.email}
-                                                    onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Mobile</label>
-                                            <div className="col-sm-10">
-                                                <input name="mobile" type="number" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.mobile}
-                                                    onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Image</label>
-                                            <div className="col-sm-10">
-                                                <input name="image" type="file" className="form-control" id="colFormLabel" placeholder="col-form-label" 
-                                                    onChange={handleImageChange} />
-                                            </div>
-                                        </div>
-                                 
-                                        <div className="row gx-3 mb-3">
-                                        </div>
-               
-                                        <div className="row gx-3 mb-3">
-                                           
-                                        </div>
-                                       
-                                        <button className="btn btn-primary" type="button" onClick={handleForm}>Edit Profile</button>
-                                    </form>
+                            <h3 className='text-center text-muted pb-4'>{heading}</h3>
+                            {showProfileForm && (
 
+                                <div className="card mb-4">
+
+                                    <div className="card-body">
+                                        <form>
+
+                                            <div className="form-group row">
+                                                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Name</label>
+                                                <div className="col-sm-10">
+                                                    <input name="name" type="email" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.name}
+                                                        onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                            <div className="form-group row">
+                                                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Email</label>
+                                                <div className="col-sm-10">
+                                                    <input name="email" type="email" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.email}
+                                                        onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                            <div className="form-group row">
+                                                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Mobile</label>
+                                                <div className="col-sm-10">
+                                                    <input name="mobile" type="number" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.mobile}
+                                                        onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                            <div className="form-group row">
+                                                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Image</label>
+                                                <div className="col-sm-10">
+                                                    <input name="image" type="file" className="form-control" id="colFormLabel" placeholder="col-form-label"
+                                                        onChange={handleImageChange} />
+                                                </div>
+                                            </div>
+
+                                            <div className="row gx-3 mb-3">
+                                            </div>
+
+                                            <div className="row gx-3 mb-3">
+
+                                            </div>
+
+                                            <button className="btn btn-primary" type="button" onClick={handleForm}>Edit Profile</button>
+                                        </form>
+
+                                    </div>
                                 </div>
-                            </div>
                             )}
-                             {showChangePasswordForm && (
-                            <div className="card mb-4">
-                                <div className="card-body">
-                                    <form>
-                                    <div className="mb-3">
-                                            <label className="small mb-1" htmlFor="inputNewPassword">Old Password</label>
-                                            <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your old password"value={oldPassword} onChange={(e)=>setOldPassword(e.target.value)}/>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1" htmlFor="inputNewPassword">New Password</label>
-                                            <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your new password" value={newPassword} onChange={handleNewPasswordChange} />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1" htmlFor="inputConfirmPassword">Confirm Password</label>
-                                            <input className="form-control" id="inputConfirmPassword" type="password" placeholder="Confirm your new password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
-                                        </div>
-                                        <Toaster />
-                                        <button className="btn btn-primary" type="button" onClick={handlePasswordChange}>Confirm</button>
-                                    </form>
+                            {showChangePasswordForm && (
+                                <div className="card mb-4">
+                                    <div className="card-body">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label className="small mb-1" htmlFor="inputNewPassword">Old Password</label>
+                                                <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your old password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1" htmlFor="inputNewPassword">New Password</label>
+                                                <input className="form-control" id="inputNewPassword" type="password" placeholder="Enter your new password" value={newPassword} onChange={handleNewPasswordChange} />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1" htmlFor="inputConfirmPassword">Confirm Password</label>
+                                                <input className="form-control" id="inputConfirmPassword" type="password" placeholder="Confirm your new password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                                            </div>
+                                            <Toaster />
+                                            <button className="btn btn-primary" type="button" onClick={handlePasswordChange}>Confirm</button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
                         </div>
                     </div>
                 </div>
             </section>
-            <Footer />
+            {/* <Footer /> */}
         </>
 
     )

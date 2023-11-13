@@ -7,6 +7,11 @@ import axios from 'axios';
 import HeroBg from 'assets/images/breadcrumb-bg.jpg';
 import { Link } from 'react-router-dom';
 import { Icon } from '@mui/material';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function Product() {
   const [categoryList, setCategoryList] = useState([]);
@@ -17,7 +22,7 @@ function Product() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(4);
+  const [productsPerPage, setProductsPerPage] = useState(3);
   useEffect(() => {
     fetchProducts();
     categoriesList();
@@ -161,7 +166,7 @@ function Product() {
   return (
     <div className={Styles.home}>
       <Header />
-      <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+      {/* <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -177,9 +182,9 @@ function Product() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
       {/* Car Section Begin */}
-      <section className={`${Styles.car} ${Styles.spad}`}>
+      <section style={{ paddingTop: "0px" }} className={`${Styles.car} ${Styles.spad}`}>
         <div className={Styles.carcontainer}>
           <Row className="row">
             <div className="col-lg-3">
@@ -242,72 +247,57 @@ function Product() {
                 </div>
               </div>
               {/* Product listing start */}
-              <section className={`${Styles.productListing} ${Styles.spad}`} >
-              <div className={Styles.cardcontainer}>
-                  <Row className="row">
-                    {/* {currentProducts.map((product) => (
-                      <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
-                        <div className={Styles.car__item}>
-                          <div className={Styles.car__item__pic__slider}>
-                            <img
-                              src={`http://localhost:8000/${product.images[0]}`}
-                              alt={`Product: ${product.productName}`}
-                              style={{ height: '250px' }}
-                            />
-                          </div>
-                          <div className={Styles.productButtons}>
-
-                            <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToCart(product)}>
-                              <i className="material-icons">shopping_cart</i>
-                            </button>
-                            <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToWishlist(product)}>
-                              <i className="material-icons">favorite</i>
-                            </button>
-                          </div>
-                          <div className={Styles.car__item__text}>
-                            <div className={Styles.car__item__text__inner}>
-                              <h4>{product.productName}</h4>
-                              <p className={Styles.productPrice}>{product.price}</p>
-                              <p style={{ maxWidth: "700px" }}>
+              <section>
+                <div className="container  mb-3">
+                  <div className="row">
+                    {currentProducts.map((product) => (
+                      <div className="col-md-6 col-lg-4 mb-4" key={product._id}>
+                        <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
+                        <div className="card">
+                          <img src={`http://localhost:8000/${product.images[0]}`} style={{ height: '280px' }} className="card-img-top" alt="Gaming Laptop" />
+                          <div className="card-body text-center" style={{ height: '280px', overflow: 'hidden' }}>
+                            <h5 style={{ height: '20px' }}>{product.productName}</h5>
+                            <h5 className="text-danger mb-3">₹{product.price}</h5>
+                            <p className="small " style={{ height: '50px', overflow: 'hidden' }}>
+                              <a href="#!" className="text-muted">
                                 {product.description}
-                              </p>
+                              </a>
+                            </p>
+                            <div className="text-warning mb-3">
+                              <i className="fa fa-star" />
+                              <i className="fas fa-star" />
+                              <i className="fas fa-star" />
+                              <i className="fas fa-star" />
+                              <i className="fas fa-star-half-alt" />
+                            </div>
+                            <div className="d-flex justify-content-center gap-3 mb-3 ">
+                              <button onClick={() => handleAddToCart(product)} type="button" style={{  fontSize: "1rem" }} className="btn btn-dange">
+                                <span style={{ fontSize: '1.8rem' }}>
+                                  <ShoppingCartIcon />
+                                </span>
+                              </button>
 
+                              {/* <button type="button" style={{ borderRadius: "50%", }} className="btn btn-secondary">
+                                <Link to={`/productDetails/${product._id}`} style={{ color: "#414c4f", display: 'block', height: '100%' }}>
+                                  <span style={{ fontSize: '1.8rem' }}>
+                                    <VisibilityIcon />
+                                  </span>
+                                </Link>
+                              </button> */}
+
+                              <button onClick={() => handleAddToWishlist(product)} type="button" style={{  fontSize: "1rem" }} className="btn btn-primar">
+                                <span style={{ fontSize: '1.8rem' }}>
+                                  <FavoriteIcon />
+                                </span>
+                              </button>
                             </div>
                           </div>
                         </div>
-                      </Link>
-                    ))} */}
-                     {currentProducts.map((product) => (
-                   <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
-                    <div className="card" style={{height:"100%"}} >
-
-                    <img className="card-img-top" src={`http://localhost:8000/${product.images[0]}`}
-                      alt={`Product: ${product.productName}`} />
-                    <div className="card-body">
-                      {/* <h5 className="card-title">Card title</h5> */}
-                      <div className={Styles.productButtons}>
-
-                        <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToCart(product)}>
-                          <i className="material-icons">shopping_cart</i>
-                        </button>
-                        <button className={`${Styles.cartBtn} ${Styles.productBtn}`} onClick={() => handleAddToWishlist(product)}>
-                          <i className="material-icons">favorite</i>
-                        </button>
+                        </Link>
                       </div>
-
-                      <h4>{product.productName}</h4>
-                      <p  className={Styles.productPrice}>{product.price}</p>
-                      <p className="card-text">{product.description}</p>
-                      
-                      {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                    </div>
-                    
+                    ))}
                   </div>
-                  </Link>
-                ))}
-                  </Row>
                 </div>
-               
               </section>
               {/* Product listing End */}
               <div className={Styles.pagination__option}>

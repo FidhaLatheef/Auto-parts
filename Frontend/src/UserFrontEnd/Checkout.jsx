@@ -180,7 +180,7 @@ function Checkout() {
         <div className={Styles.home}>
             <Toaster />
             <Header />
-            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+            {/* <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -196,10 +196,12 @@ function Checkout() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* Checkout Section Begin */}
+           
 
-            <section className={`${styles.checkout} ${styles.spad}`}>
+            <section style={{marginTop:"-41px"}} className={`${styles.checkout} ${styles.spad}`}>
+            <h3 className='text-center text-muted pb-4' >Checkout</h3>
                 <div className={styles.container} style={{ marginLeft: "80px" }}>
                     <div className={styles.checkout__form}>
                         <form action="#">
@@ -505,7 +507,7 @@ function Checkout() {
                                             </ul>
                                             <ul className={styles.checkout__total__all}>
 
-                                                <li> Total <span>${calculateCartTotal()}</span></li>
+                                                <li> Total <span>₹{calculateCartTotal()}</span></li>
                                             </ul>
 
                                             <div className={styles.checkout__input__checkbox}>
@@ -542,7 +544,7 @@ function Checkout() {
                 </div>
             </section>
             {/* Checkout Section End */}
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

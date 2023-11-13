@@ -11,6 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 // import Modal from 'react-modal';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import tick from "../assets/images/tick.png"
+import gif from "assets/images/tigif.gif"
 
 // Modal.setAppElement('#root');
 
@@ -26,6 +27,7 @@ function Invoice() {
   const orderList = async () => {
     try {
       const orderId = location.state.orderId;
+      console.log(orderId,"ddddddddd")
       const response = await axios.get(`http://localhost:8000/user/orderListById/${orderId}`);
       const data = await response.data;
       if (data.status === "success") {
@@ -60,7 +62,7 @@ function Invoice() {
   return (
     <div className={Styles.home}>
       <Header />
-      <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+      {/* <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12 text-center">
@@ -76,132 +78,128 @@ function Invoice() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="container" style={{ marginTop: "20px" }}>
-        <div className="row">
-          <div className="col-12">
-            <div className="card" style={{ border: "none" }}>
-              {order && (
-                <div className="card-body p-0">
-                  <div className="row p-5" style={{ backgroundColor: "#e8eaed", borderRadius: "5px", boxShadow: "60px" }}>
-                    <div className="col-md-6 text-right">
-                      <h3 className="font-weight-bold mb-1">INVOICE</h3>
-                      <p className="text-muted">Order ID : {order.orderId}</p>
-                      <p className="text-muted">Order Date : {new Date().toLocaleDateString()}</p>
-                    </div>
+      </div> */}
+       <h3 style={{marginTop:"20px"}} className='text-center text-muted pb-4' >INVOICE</h3>
+     <div className="card">
+    
+        <div className="card-body">
+        {order && (
+          <div className="container mb-5 mt-3">
+            <div className="row d-flex align-items-baseline">
+              <div className="col-xl-9">
+              <ul className="list-unstyled">
+                      <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order ID:</span> {order.orderId}</li>
+                      <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order Date: </span>{new Date().toLocaleDateString()}</li>
+                      {/* <li className="text-muted"><i className="fas fa-circle" style={{color: '#84B0CA'}} /> <span className="me-1 fw-bold">Status:</span><span className="badge bg-warning text-black fw-bold">
+                  Unpaid</span></li> */}
+                    </ul>
+              </div>
+              <div className="col-xl-3 float-end">
+                {/* <a className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i className="fas fa-print text-primary" /> Print</a>
+                <a className="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i className="far fa-file-pdf text-danger" /> Export</a> */}
+              </div>
+              <hr />
+            </div>
+           
+            <div className="container">
+              <div className="col-md-12">
+                <div className="text-center">
+                  {/* <h1 className="text-muted">INVOICE</h1> */}
+                </div>
+              </div>
+            
+                <div className="row">
+                  <div className="col-xl-8">
+                    <ul className="list-unstyled">
+                      <li className="text-muted">From: <span style={{ color: '#5d9fc5' }}> {order.billingDetails.name}</span></li>
+                      <li className="text-muted">{order.billingDetails.address1}, {order.billingDetails.address2}</li>
+                      <li className="text-muted">{order.billingDetails.state}</li>
+                      <li className="text-muted">{order.billingDetails.email}</li>
+                      <li className="text-muted"><i className="fas fa-phone" />{order.billingDetails.mobile}</li>
+                    </ul>
                   </div>
-                  <hr className="my-5" />
-
-                  <div className="row pb-5 p-5">
-
-                    <div className="col-md-6">
-
-                      <h3 className="font-weight-bold mb-4">Billing Details</h3>
-                      <p className="mb-1"> {order.billingDetails.name}</p>
-                      <p>{order.billingDetails.country}</p>
-                      <p className="mb-1"> {order.billingDetails.address1}, {order.billingDetails.address2}</p>
-                      <p className="mb-1">{order.billingDetails.city}</p>
-                      <p className="mb-1">{order.billingDetails.state}</p>
-                      <p className="mb-1">{order.billingDetails.postcode}</p>
-                      <p className="mb-1">{order.billingDetails.mobile}</p>
-                      <p className="mb-1">{order.billingDetails.email}</p>
-
-                    </div>
-
-
-                    <div className="col-md-6 text-right">
-                      <h3 className="font-weight-bold mb-4">Shipping Details</h3>
-                      <p className="mb-1"> {order.shippingDetails.name}</p>
-                      <p> {order.shippingDetails.country}</p>
-                      <p className="mb-1"> {order.shippingDetails.address1}, {order.shippingDetails.address2}</p>
-                      <p className="mb-1">{order.shippingDetails.city}</p>
-                      <p className="mb-1">{order.shippingDetails.state}</p>
-                      <p className="mb-1">{order.shippingDetails.postcode}</p>
-                      <p className="mb-1">{order.shippingDetails.mobile}</p>
-                      <p className="mb-1">{order.shippingDetails.email}</p>
-                    </div>
-
+                  <div className="col-xl-4">
+                    <ul className="list-unstyled">
+                      <li className="text-muted">To: <span style={{ color: '#5d9fc5' }}> {order.shippingDetails.name}</span></li>
+                      <li className="text-muted">{order.shippingDetails.address1}, {order.shippingDetails.address2}</li>
+                      <li className="text-muted">{order.shippingDetails.state}</li>
+                      <li className="text-muted">{order.shippingDetails.email}</li>
+                      <li className="text-muted"><i className="fas fa-phone" />{order.shippingDetails.mobile}</li>
+                    </ul>
                   </div>
+                
+                </div>
+             
+              <div  className="row my-2 mx-1 justify-content-center">
+                <table className="table table-striped table-borderless">
+                  <thead style={{ backgroundColor: '#84B0CA' }} className="text-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">Quantity</th>
+                      {/* <th scope="col">Unit Price</th> */}
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {order.cartItem.map((item, index) => (
+                    <tr  key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.productname}</td>
+                      <td>{item.quantity}</td>
+                      {/* <td>$200</td> */}
+                      <td>{item.price}</td>
+                    </tr>
+                   
+                     ))}
+                  </tbody>
+                </table>
+              </div>
 
-                  <div className="row p-5">
-                    <div className="col-md-12">
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th className="border-0 text-uppercase small font-weight-bold">ID</th>
-                            <th className="border-0 text-uppercase small font-weight-bold">Item</th>
-                            {/* <th className="border-0 text-uppercase small font-weight-bold">Description</th> */}
-                            <th className="border-0 text-uppercase small font-weight-bold">Quantity</th>
-                            {/* <th className="border-0 text-uppercase small font-weight-bold">Unit Cost</th> */}
-                            <th className="border-0 text-uppercase small font-weight-bold">Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {order.cartItem.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item.productname}</td>
-                              {/* <td>LTS Versions</td> */}
-                              <td>{item.quantity}</td>
-                              {/* <td>$321</td> */}
-                              <td>{item.price}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div className="d-flex flex-row-reverse bg-dark text-white p-4">
-                    <div className="py-3 px-5 text-right">
-                      <div className="mb-2"></div>
-                      <button
-                        style={{  fontSize: "25px" }}
-                        className="btn btn-danger"
-                        onClick={handleProceedClick}
-                      >
-                        Proceed
-                      </button>
-                      <Modal isOpen={showModal} toggle={closeModal} className={Styles.modal}>
-                        <ModalHeader  toggle={closeModal} className="text-right" >
-                         
+              <div className="row">
+                <div className="col-xl-8">
+                  {/* <p className="ms-3">Add additional notes and payment information</p> */}
+                </div>
+                <div className="col-xl-3">
+                  {/* <ul className="list-unstyled">
+                    <li className="text-muted ms-3"><span className="text-black me-4">SubTotal</span>$1110</li>
+                    <li className="text-muted ms-3 mt-2"><span className="text-black me-4">Tax(15%)</span>$111</li>
+                  </ul> */}
+                  <p className="text-black float-start"><span className="text-black me-3"> Total Amount:</span><span style={{ color:"#ad1111",fontSize: 25 }}>₹{order.total}</span></p>
+                </div>
+              </div>
+              <hr />
+              <div className="row">
+                <div className="col-xl-10">
+                  {/* <p>Thank you for your purchase</p> */}
+                </div>
+                <div className="col-xl-2">
+                  <button type="button" onClick={handleProceedClick} className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" > Proceed</button>
+                  <Modal isOpen={showModal} toggle={closeModal} className={Styles.modal}>
+                        <ModalHeader  toggle={closeModal} className="text-right" >                       
                         </ModalHeader>
                         <ModalBody>
-                        <img   src={tick} alt="Thank you for your purchase"  style={{ marginLeft: '120px', marginBottom:"40px" }} />
-                          <h2 style={{ color: "green" }}>Thank you for your purchase!</h2>
-                          <p>Your order # is: {order && order.orderId}.</p>
-                          <p>
-                            You will receive an order confirmation email with details of your
-                            order and a link to track its progress.
-                          </p>
-                          <p>
-                            All necessary information about the delivery, we sent to your email.
-                          </p>
+                        <img   src={gif} alt="Thank you for your purchase"  style={{width:"500px",height:"350px" }} />
+                          <h3 style={{ color: "#4b93a3",fontWeight: 'bold',marginLeft:"10px"}}>Thank you for your purchase..!</h3>
                         </ModalBody>
-                        <ModalFooter>
-                          <button  className="btn btn-primary" onClick={closeModal}>
+                        <ModalFooter  className="justify-content-center">
+                          <button  className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" onClick={closeModal}>
                             View Order
                           </button>
-                          <button style={{ backgroundColor: "green" }} className="btn btn-success" onClick={continueshopping}>
+                          <button style={{ marginLeft:"35px" }} className="ripple ripple-surface ripple-surface-light btn btn-primary " onClick={continueshopping}>
                             Continue shopping
                           </button>
                         </ModalFooter>
                       </Modal>
-                    </div>
-                    <div className="py-3 px-5 text-left">
-                      <div className="mb-2">Total amount</div>
-                      <div className="h2 font-weight-light">${order.total}</div>
-                    </div>
-                  </div>
-
                 </div>
-              )}
+              </div>
             </div>
+            
           </div>
+          )}
         </div>
-        <div className="text-light mt-5 mb-5 text-center small">by : <a className="text-light" target="_blank" rel="noreferrer" href="http://totoprayogo.com">totoprayogo.com</a></div>
-
       </div>
-      <Footer />
+      {/* <Footer /> */}
 
     </div>
   )

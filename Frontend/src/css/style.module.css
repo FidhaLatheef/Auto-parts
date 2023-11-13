@@ -242,6 +242,26 @@ ol {
 	background: #db2d2e;
 	border-radius: 2px;
 }
+/* styles.module.css */
+
+/* styles.module.css */
+
+.roundButton {
+	border-radius: 50%; /* Makes the button round */
+	width: 50px; /* Set the desired width */
+	height: 50px; /* Set the desired height */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Adds a box shadow */
+	transition: background-color 0.3s ease; /* Adds a smooth transition on hover */
+  }
+  
+  .roundButton:hover {
+	background-color: rgba(255, 255, 255, 0.8); /* Adds a fade color on hover */
+  }
+  
+  
 
 .sitebtn {
 	font-size: 15px;
