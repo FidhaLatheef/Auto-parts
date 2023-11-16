@@ -188,9 +188,11 @@ function Invoice() {
                           All necessary information about the delivery, we sent to your email</p>
                       </ModalBody>
                       <ModalFooter className="justify-content-center">
-                        <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" onClick={handleorder}>
-                          View Order
-                        </button>
+                        {localStorage.getItem('userToken') && (
+                          <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" onClick={handleorder}>
+                            View Order
+                          </button>
+                        )}
                         <button style={{ marginLeft: "35px" }} className="ripple ripple-surface ripple-surface-light btn btn-primary " onClick={continueshopping}>
                           Continue shopping
                         </button>

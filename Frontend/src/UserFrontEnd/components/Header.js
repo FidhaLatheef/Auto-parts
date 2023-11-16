@@ -1,23 +1,73 @@
 import React from 'react';
 import Styles from "css/style.module.css";
-import Logo from "assets/images/log.jpg";
-import { Image, Row } from 'react-bootstrap';
-import { Icon } from '@mui/material';
-import heart from 'assets/images/logos/heart.jpg'
-import cart from 'assets/images/logos/cart.jpg'
-// import Styles from "css/style.module.css";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "css/style.css"
-import { ShoppingBag } from '@mui/icons-material';
-import { Favorite } from '@material-ui/icons';
+import { Dropdown } from 'react-bootstrap';
 
 function Header() {
     const Cart = JSON.parse(localStorage.getItem("cart")) || [];
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     const userProfile = JSON.parse(localStorage.getItem("userProfile"))
 
+    const handleLogoutClick = () => {
+        localStorage.removeItem('userProfile');
+        localStorage.removeItem('userToken');
+        window.location.href = '/UserHome'; 
+    };
+
+    const renderDropdown = () => {
+        if (userProfile) {
+            return (
+                <Dropdown>
+                    <Dropdown.Toggle variant="light" id="dropdown-basic">
+                        <img src={`http://localhost:8000/${userProfile.image}`} alt="User Profile" className={Styles.userImage} />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="/userProfile">
+                            <AccountCircleIcon /> My Account
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/viewOrder">
+                            <i className="fa fa-shopping-bag" /> My Orders
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/trackOrder">
+                            <i className="fa fa-map-marker" /> Track Order
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogoutClick}>
+                            <i className="fa fa-sign-out" /> Logout
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            );
+        } else {
+            return (
+                <Dropdown>
+                    <Dropdown.Toggle variant="light" id="dropdown-basic">
+                    <a href="#" style={{marginTop:"3px",marginRight:"3px"}}><i className="fa fa-user fa-lg" /> </a>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="/UserLogin">
+                            <i className="fa fa-sign-in" /> Sign In
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/UserSignUp">
+                            <i className="fa fa-user-plus" /> Create an Account
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/UserLogin">
+                            <i className="fa fa-shopping-bag" /> Your Orders
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/trackOrder">
+                            <i className="fa fa-map-marker" /> Track Order
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            );
+        }
+    };
+
+
     return (
-        <header className="header" style={{backgroundColor:"#fafafa"}}>
+        <header className="header" style={{ backgroundColor: "#fafafa" }}>
             <div className="header__top">
                 <div className="container">
                     <div className="row">
@@ -48,20 +98,10 @@ function Header() {
                             </nav>
                             <div className="header__nav__widget">
                                 <div className="header__nav__widget__btn">
-                                    {userProfile ? (
-                                        <a href="/userProfile">
-                                            <img src={`http://localhost:8000/${userProfile.image}`} alt="User Profile" className={Styles.userImage} />
-                                        </a>
-                                    ) : (
-                                        <a style={{ fontSize: '25px' }}
-                                            href="/UserLogin"><AccountCircleIcon /></a>
-                                    )}
-                                     <a  href='/wishlist'> <Favorite /> {wishlist ? <span className={Styles.notificationBadge}>{wishlist.length}</span> : null}</a>
+                                    {renderDropdown()}
+                                    <a href="/cart"><i className="fa fa-shopping-cart fa-lg" />  {Cart ? <span className="badge rounded-pill badge-notification bg-danger">{Cart.length}</span> : null}</a>
+                                    <a href="/wishlist"><i className="fa fa-heart fa-lg" />  {wishlist ? <span className="badge rounded-pill badge-notification bg-danger">{wishlist.length}</span> : null}</a>
                                 </div>
-                                <div className="header__nav__widget__btn">
-                                <a style={{ fontSize: '25px' }} href="/cart"> <ShoppingBag /> {Cart ? <span className={Styles.notificationBadges}>{Cart.length}</span> : null}</a>
-                                </div>
-                                {/* <a href="#" className="primary-btn">Add Car</a> */}
                             </div>
                         </div>
                     </div>

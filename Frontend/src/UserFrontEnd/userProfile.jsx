@@ -149,7 +149,7 @@ function userProfile() {
 
     const handleLogoutClick = () => {
         localStorage.removeItem('userProfile');
-        localStorage.removeItem("profileFormState");
+        localStorage.removeItem('userToken');
         window.location.href = "/UserHome";
     };
 

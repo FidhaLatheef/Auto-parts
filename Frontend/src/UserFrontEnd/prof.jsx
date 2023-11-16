@@ -1,128 +1,108 @@
 import React from 'react';
-import { Toaster, toast } from 'react-hot-toast'
-import axios from "axios";
-import { useState } from "react";
-import { MDBInput } from 'mdb-react-ui-kit';
-
+import "css/style.css"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Styles from "css/style.module.css";
+import { Dropdown } from 'react-bootstrap';
 
 function ProductDetails() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [fieldRequired, setFieldRequired] = useState(false);
+  const Cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const userProfile = JSON.parse(localStorage.getItem("userProfile"))
 
+  const renderDropdown = () => {
+    if (userProfile) {
+      return (
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-basic">
+            <img src={`http://localhost:8000/${userProfile.image}`} alt="User Profile" className={Styles.userImage} />
+          </Dropdown.Toggle>
 
-  const handleForm = (e) => {
-    e.preventDefault();
+          <Dropdown.Menu>
+            <Dropdown.Item href="/my-account">
+              <AccountCircleIcon /> My Account
+            </Dropdown.Item>
+            <Dropdown.Item href="/my-orders">
+              <i className="fa fa-shopping-bag" /> My Orders
+            </Dropdown.Item>
+            <Dropdown.Item href="/track-order">
+              <i className="fa fa-map-marker" /> Track Order
+            </Dropdown.Item>
+            <Dropdown.Item href="/logout">
+              <i className="fa fa-sign-out" /> Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+    } else {
+      return (
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-basic">
+            <AccountCircleIcon />
+          </Dropdown.Toggle>
 
-    if (email === '' || password === '') {
-      setFieldRequired(true);
-      toast.error("Please enter all fields");
-      return;
+          <Dropdown.Menu>
+            <Dropdown.Item href="/sign-in">
+              <i className="fa fa-sign-in" /> Sign In
+            </Dropdown.Item>
+            <Dropdown.Item href="/create-account">
+              <i className="fa fa-user-plus" /> Create an Account
+            </Dropdown.Item>
+            <Dropdown.Item href="/your-orders">
+              <i className="fa fa-shopping-bag" /> Your Orders
+            </Dropdown.Item>
+            <Dropdown.Item href="/track-order">
+              <i className="fa fa-map-marker" /> Track Order
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
     }
+  };
 
-    const data = {
-      email: email,
-      password: password
-    };
-
-    axios
-      .post('http://localhost:8000/user/Login', data)
-      .then(function (response) {
-
-        if (response.data.fieldRequired) {
-        } else {
-          localStorage.setItem('userToken', response.data.token);
-          localStorage.setItem('userProfile', JSON.stringify(response.data.userProfile));
-          window.location.href = '/UserHome'
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.response && error.response.status === 400) {
-          toast.error("Please enter valid credentials")
-
-        }
-
-      })
-
-
-  }
 
   return (
     <div >
-      <section className="vh-100" style={{ backgroundColor: '#eee' }}>
-        <div className="container h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-lg-12 col-xl-11">
-              <div className="card text-black" style={{ borderRadius: 25 }}>
-                <div className="card-body p-md-5">
-                  <div className="row justify-content-center">
-                    <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                      <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-                      <form className="mx-1 mx-md-4">
-                        <div className="d-flex flex-row align-items-center mb-4">
-                          <i className="fas fa-user fa-lg me-3 fa-fw" />
-                          <div className="form-outline flex-fill mb-0">
-                            <MDBInput label="name" id='form1' type='text' name="name"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)} />
-                          </div>
-                        </div>
-                        <div className="d-flex flex-row align-items-center mb-4">
-                          <i className="fas fa-phone fa-lg me-3 fa-fw" />
-                          <div className="form-outline flex-fill mb-0">
-                            <MDBInput label="mobile" id='form1' type='number' name="mobile"
-                              value={mobile}
-                              onChange={(e) => setName(e.target.value)} />
-                          </div>
-                        </div>
+      <header className="header">
 
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-2">
+              <div className="header__logo">
+                <a className="navbar-brand" href="/UserHome">
+                  <span style={{ fontWeight: 'bold', color: 'black', fontSize: "25px" }}>Auto</span>
+                  <span style={{ fontWeight: 'bold', color: '#c92014', fontSize: "27px" }}>Parts</span>
+                </a>
+              </div>
+            </div>
+            <div className="col-lg-10">
+              <div className="header__nav">
+                <nav className="header__menu">
+                  <ul>
+                    <li ><a href="/UserHome">Home</a></li>
+                    <li><a href="/product">Products</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                  </ul>
+                </nav>
+                <div className="header__nav__widget">
+                  <div className="header__nav__widget__btn">
+                  {renderDropdown()}
+                    <a href="/cart"><i className="fa fa-shopping-cart fa-lg" />  {Cart ? <span className="badge rounded-pill badge-notification bg-danger">{Cart.length}</span> : null}</a>
+                    <a href="/wishlist"><i className="fa fa-heart fa-lg" />  {wishlist ? <span className="badge rounded-pill badge-notification bg-danger">{wishlist.length}</span> : null}</a>
 
-                        <div className="d-flex flex-row align-items-center mb-4">
-                          <i className="fas fa-envelope fa-lg me-3 fa-fw" />
-                          <div className="form-outline flex-fill mb-0">
-                            <MDBInput label='email' id='form1' type='email' name='email'
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)} />
-                          </div>
-                        </div>
-                        <div className="d-flex flex-row align-items-center mb-4">
-                          <i className="fas fa-lock fa-lg me-3 fa-fw" />
-                          <div className="form-outline flex-fill mb-0">
-                            <MDBInput label='password' id='form1' type='password' name='password'
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)} />
-                          </div>
-                        </div>
-                        <div className="d-flex flex-row align-items-center mb-4">
-                          <i className="fas fa-picture-o fa-lg me-3 fa-fw" />
-                          <div className="form-outline flex-fill mb-0">
-                            <MDBInput name="image"
-                              onChange={(e) => setImage(e.target.files[0])}
-                              placeholder="Image" label='image' id='form1' type='file' />
-                          </div>
-                        </div>
-                        <div className="form-check d-flex justify-content-center mb-5">
-                          <input className="form-check-input me-2" type="checkbox" defaultValue id="form2Example3c" />
-                          <label className="form-check-label" htmlFor="form2Example3">
-                            I agree all statements in <a href="#!">Terms of service</a>
-                          </label>
-                        </div>
-                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="button" className="btn btn-primary btn-lg">Register</button>
-                        </div>
-                      </form>
-                    </div>
-                    <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" className="img-fluid" alt="Sample image" />
-                    </div>
                   </div>
+
+                  {/* <a href="#" className="primary-btn">Add Car</a> */}
                 </div>
               </div>
             </div>
           </div>
+          <div className="canvas__open">
+            <span className="fa fa-bars" />
+          </div>
         </div>
-      </section>
+      </header>
+
 
 
     </div>
