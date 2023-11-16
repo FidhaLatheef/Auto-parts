@@ -10,6 +10,7 @@ import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { Icon } from '@mui/material';
+import ImageGallery from "react-image-gallery";
 
 function ProductDetails() {
     const { id } = useParams();
@@ -22,6 +23,7 @@ function ProductDetails() {
         price: '',
         images: [],
     });
+    const [activeImage, setActiveImage] = useState('');
 
     useEffect(() => {
         async function fetchProductDetails() {
@@ -45,8 +47,8 @@ function ProductDetails() {
         fetchProductDetails();
     }, [id]);
 
-    const handleTabClick = (tabId) => {
-        setActiveTab(tabId);
+    const handleImageClick = (image) => {
+        setActiveImage(image);
     };
 
     const handleAddToCart = (product) => {
@@ -69,13 +71,13 @@ function ProductDetails() {
             window.location.href = "/cart";
         } else {
             alert('Product is already in the cart');
-            
+
         }
     };
     const handleAddToWishlist = (product) => {
         const existingWish = JSON.parse(localStorage.getItem("wishlist")) || [];
         const isProductInWish = existingWish.some((item) => item.id === product._id);
-      
+
         if (!isProductInWish) {
             const wishlistItem = {
                 id: product._id,
@@ -84,111 +86,233 @@ function ProductDetails() {
                 price: product.price,
                 quantity: 1,
             };
-      
+
             existingWish.push(wishlistItem);
             localStorage.setItem("wishlist", JSON.stringify(existingWish));
             alert('Product added to the wishlist !!')
-      
-            window.location.href = "/wishlist"; 
+
+            window.location.href = "/wishlist";
         } else {
-          alert('Product is already in the wishlist');
+            alert('Product is already in the wishlist');
         }
-        
-      };
+
+    };
 
     return (
         <div >
             <Header />
-            <div className="breadcrumb-option set-bg" style={{ backgroundImage: `url(${HeroBg})` }}>
+
+
+
+            <section className="py-5">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12 text-center">
-                            <div className="breadcrumb__text">
-                                <h2>Product Details</h2>
-                                <div className="breadcrumb__links">
-                                    <a href="/UserHome"><Icon><span style={{ fontSize: "20px", color: "#db2d2e" }} className="material-symbols-outlined">
-                                        house
-                                    </span></Icon> Home -</a>
-                                    <span>Product Details</span>
+                    <div className="row gx-5">
+                        <aside className="col-lg-6">
+                        <div className="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                                <div className="row py-3 shadow-5">
+                                    <div className="col-12 mb-1">
+                                        <div className="lightbox">
+                                            <img src={`http://localhost:8000/${activeImage || product.images[0]}`} alt="Gallery image 1" className="ecommerce-gallery-main-img active w-100" />
+                                        </div>
+                                    </div>
+                                    {product.images.map((image, index) => (
+                                        <div key={index} className="col-3 mt-1">
+                                            <img
+                                                src={`http://localhost:8000/${image}`}
+                                                data-mdb-img={image}
+                                                alt={`Gallery image ${index + 2}`}
+                                                className={index === 0 ? 'active w-100' : 'w-100'}
+                                                onClick={() => handleImageClick(image)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
+                        <main className="col-lg-6">
+                            <div className="ps-lg-3">
+                                {/* <h4 className="title text-dark">
+                                    {product.productName}
+                                </h4> */}
+                                <span className="h4">{product.productName}</span>
+                                <div className="d-flex flex-row my-3">
+                                    <div className="text-warning mb-1 me-2">
+                                        <i className="fa fa-star" />
+                                        <i className="fa fa-star" />
+                                        <i className="fa fa-star" />
+                                        <i className="fa fa-star" />
+                                        <i className="fas fa-star-half-alt" />
+                                        <span className="ms-1">
+                                            4.5
+                                        </span>
+                                    </div>
+                                    {/* <span className="text-muted"><i className="fas fa-shopping-basket fa-sm mx-1" />154 orders</span>
+                                    <span className="text-success ms-2">In stock</span> */}
+                                </div>
+                                <div className="mb-3">
+                                    <span className="h5">Rs.{product.price}</span>
+                                    <span className="text-muted">/per item</span>
+                                </div>
+                                <p>
+                                    {product.description}
+                                </p>
+                                <div className="d-flex  gap-3 mb-3">
+                                    <a onClick={() => handleAddToCart(product)} className="ripple ripple-surface btn btn-danger"> <i className="me-1 fa fa-shopping-basket" /> Add to cart </a>
+                                    <a onClick={() => handleAddToWishlist(product)} className="ripple ripple-surface btn btn-warning"> <i className="me-1 fa fa-heart fa-lg" /> Wishlist </a>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            </section>
+            {/* content */}
+            <section className="bg-light border-top py-4">
+                <div className="container">
+                    <div className="row gx-4">
+                        <div className="col-lg-8 mb-4">
+                            <div className="border rounded-2 px-3 py-2 bg-white">
+                                {/* Pills navs */}
+                                <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                                    <li className="nav-item d-flex" role="presentation">
+                                        <a className="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
+                                    </li>
+                                    <li className="nav-item d-flex" role="presentation">
+                                        <a className="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Warranty info</a>
+                                    </li>
+                                    <li className="nav-item d-flex" role="presentation">
+                                        <a className="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Shipping info</a>
+                                    </li>
+                                    <li className="nav-item d-flex" role="presentation">
+                                        <a className="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected="false">Seller profile</a>
+                                    </li>
+                                </ul>
+                                {/* Pills navs */}
+                                {/* Pills content */}
+                                <div className="tab-content" id="ex1-content">
+                                    <div className="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                                        <p>
+                                            With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                                            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                            pariatur.
+                                        </p>
+                                        <div className="row mb-2">
+                                            <div className="col-12 col-md-6">
+                                                <ul className="list-unstyled mb-0">
+                                                    <li><i className="fas fa-check text-success me-2" />Some great feature name here</li>
+                                                    <li><i className="fas fa-check text-success me-2" />Lorem ipsum dolor sit amet, consectetur</li>
+                                                    <li><i className="fas fa-check text-success me-2" />Duis aute irure dolor in reprehenderit</li>
+                                                    <li><i className="fas fa-check text-success me-2" />Optical heart sensor</li>
+                                                </ul>
+                                            </div>
+                                            <div className="col-12 col-md-6 mb-0">
+                                                <ul className="list-unstyled">
+                                                    <li><i className="fas fa-check text-success me-2" />Easy fast and ver good</li>
+                                                    <li><i className="fas fa-check text-success me-2" />Some great feature name here</li>
+                                                    <li><i className="fas fa-check text-success me-2" />Modern style and design</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <table className="table border mt-3 mb-2">
+                                            <tbody><tr>
+                                                <th className="py-2">Display:</th>
+                                                <td className="py-2">13.3-inch LED-backlit display with IPS</td>
+                                            </tr>
+                                                <tr>
+                                                    <th className="py-2">Processor capacity:</th>
+                                                    <td className="py-2">2.3GHz dual-core Intel Core i5</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="py-2">Camera quality:</th>
+                                                    <td className="py-2">720p FaceTime HD camera</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="py-2">Memory</th>
+                                                    <td className="py-2">8 GB RAM or 16 GB RAM</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="py-2">Graphics</th>
+                                                    <td className="py-2">Intel Iris Plus Graphics 640</td>
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+                                    <div className="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                                        Tab content or sample information now <br />
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    </div>
+                                    <div className="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                                        Another tab content or sample information now <br />
+                                        Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                        mollit anim id est laborum.
+                                    </div>
+                                    <div className="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
+                                        Some other tab content or sample information now <br />
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia deserunt mollit anim id est laborum.
+                                    </div>
+                                </div>
+                                {/* Pills content */}
+                            </div>
+                        </div>
+                        <div className="col-lg-4">
+                            <div className="px-0 border rounded-2 shadow-0">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Similar items</h5>
+                                        <div className="d-flex mb-3">
+                                            <a href="#" className="me-3">
+                                                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp" style={{ minWidth: 96, height: 96 }} className="img-md img-thumbnail" />
+                                            </a>
+                                            <div className="info">
+                                                <a href="#" className="nav-link mb-1">
+                                                    Rucksack Backpack Large <br />
+                                                    Line Mounts
+                                                </a>
+                                                <strong className="text-dark"> $38.90</strong>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex mb-3">
+                                            <a href="#" className="me-3">
+                                                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp" style={{ minWidth: 96, height: 96 }} className="img-md img-thumbnail" />
+                                            </a>
+                                            <div className="info">
+                                                <a href="#" className="nav-link mb-1">
+                                                    Summer New Mens Denim <br />
+                                                    Jeans Shorts
+                                                </a>
+                                                <strong className="text-dark"> $29.50</strong>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex mb-3">
+                                            <a href="#" className="me-3">
+                                                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp" style={{ minWidth: 96, height: 96 }} className="img-md img-thumbnail" />
+                                            </a>
+                                            <div className="info">
+                                                <a href="#" className="nav-link mb-1"> T-shirts with multiple colors, for men and lady </a>
+                                                <strong className="text-dark"> $120.00</strong>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex">
+                                            <a href="#" className="me-3">
+                                                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" style={{ minWidth: 96, height: 96 }} className="img-md img-thumbnail" />
+                                            </a>
+                                            <div className="info">
+                                                <a href="#" className="nav-link mb-1"> Blazer Suit Dress Jacket for Men, Blue color </a>
+                                                <strong className="text-dark"> $339.90</strong>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className={Styles.tabcontent} style={{ marginTop: "50px" }}>
-                <Tab.Container activeKey={activeTab}>
-                    <Row className="row" >
-                        <Col className="col-lg-4 col-md-5">
-                            <PerfectScrollbar style={{ height: "350px" }}>
-                                <Nav
-                                    className={`${Styles.nav} ${Styles.navtabs}`}
-                                    role="tablist"
-                                >
-                                    {[...Array(tabCount)].map((_, index) => (
-                                        <Nav.Item key={index} className={Styles.navitem}>
-                                            <Nav.Link
-                                                className={Styles.navlink}
-                                                eventKey={`tabs-${index + 1}`}
-                                                onClick={() => handleTabClick(`tabs-${index + 1}`)}
-                                            >
-                                                <img src={imagePreview[index]} alt="" style={{ width: "800px", height: "100px" }} />
-                                            </Nav.Link>
-                                        </Nav.Item>
-                                    ))}
-                                </Nav>
-                            </PerfectScrollbar>
-                        </Col>
-                        <Col className="col-lg-8 col-md-9">
-                            <Tab.Content style={{ height: "450px", width: "600px", marginLeft: "200px" }}>
-                                {[...Array(tabCount)].map((_, index) => (
-                                    <Tab.Pane key={index} eventKey={`tabs-${index + 1}`}>
-                                        <div className={Styles.product_details_pic_item}>
-                                            <img src={imagePreview[index]} alt="" style={{ height: "500px" }} />
-                                        </div>
-                                    </Tab.Pane>
-                                ))}
-                            </Tab.Content>
-                        </Col>
-                    </Row>
-                </Tab.Container>
-            </div>
-            <div className={styles.productInfo} style={{marginTop:"100px"}} >
-                <h1>{product.productName}</h1>
-                <div className={Styles.rating}>
-                    <Icon> <span className="material-symbols-outlined">
-                        star_rate
-                    </span></Icon>
-                    <Icon> <span className="material-symbols-outlined">
-                        star_rate
-                    </span></Icon>
-                    <Icon> <span className="material-symbols-outlined">
-                        star_rate
-                    </span></Icon>
-                    <Icon> <span className="material-symbols-outlined">
-                        star_rate
-                    </span></Icon>
-                    <Icon> <span className="material-symbols-outlined">
-                        star_rate
-                    </span></Icon>
-                </div>
-                <p className={styles.productPrice}>Rs.{product.price}</p>
-                <p className={styles.productdescription}> {product.description}</p>
-                <div className={styles.productButton}>
-                    <button
-                        className={`${styles.primarybtn} ${styles.cartButton}`}
-                        onClick={() => handleAddToCart(product)}
-                    >
-                        Add to Cart
-                    </button>
-                    <button
-                        className={`${styles.primarybtn} ${styles.wishlistButton}`}
-                        onClick={() => handleAddToWishlist(product)}
-                    >
-                        Add to Wishlist
-                    </button>
-                </div>
-            </div>
+            </section>
+
             <Footer />
         </div>
     );

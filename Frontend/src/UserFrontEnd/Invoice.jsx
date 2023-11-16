@@ -27,7 +27,6 @@ function Invoice() {
   const orderList = async () => {
     try {
       const orderId = location.state.orderId;
-      console.log(orderId,"ddddddddd")
       const response = await axios.get(`http://localhost:8000/user/orderListById/${orderId}`);
       const data = await response.data;
       if (data.status === "success") {
@@ -47,12 +46,16 @@ function Invoice() {
     setShowModal(true);
   };
 
+  const handleorder = () => {
+    window.location.href = "/viewOrder"
+  };
+
   const closeModal = () => {
     // Close the modal
     setShowModal(false);
   };
   const continueshopping = () => {
-    window.location.href="/product"
+    window.location.href = "/product"
   };
 
   useEffect(() => {
@@ -79,35 +82,35 @@ function Invoice() {
           </div>
         </div>
       </div> */}
-       <h3 style={{marginTop:"20px"}} className='text-center text-muted pb-4' >INVOICE</h3>
-     <div className="card">
-    
+      <h3 style={{ marginTop: "20px" }} className='text-center text-muted pb-4' >INVOICE</h3>
+      <div className="card">
+
         <div className="card-body">
-        {order && (
-          <div className="container mb-5 mt-3">
-            <div className="row d-flex align-items-baseline">
-              <div className="col-xl-9">
-              <ul className="list-unstyled">
-                      <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order ID:</span> {order.orderId}</li>
-                      <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order Date: </span>{new Date().toLocaleDateString()}</li>
-                      {/* <li className="text-muted"><i className="fas fa-circle" style={{color: '#84B0CA'}} /> <span className="me-1 fw-bold">Status:</span><span className="badge bg-warning text-black fw-bold">
+          {order && (
+            <div className="container mb-5 mt-3">
+              <div className="row d-flex align-items-baseline">
+                <div className="col-xl-9">
+                  <ul className="list-unstyled">
+                    <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order ID:</span> {order.orderId}</li>
+                    <li className="text-muted"><i className="fas fa-circle" style={{ color: '#84B0CA' }} /> <span className="fw-bold">Order Date: </span>{new Date().toLocaleDateString()}</li>
+                    {/* <li className="text-muted"><i className="fas fa-circle" style={{color: '#84B0CA'}} /> <span className="me-1 fw-bold">Status:</span><span className="badge bg-warning text-black fw-bold">
                   Unpaid</span></li> */}
-                    </ul>
-              </div>
-              <div className="col-xl-3 float-end">
-                {/* <a className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i className="fas fa-print text-primary" /> Print</a>
-                <a className="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i className="far fa-file-pdf text-danger" /> Export</a> */}
-              </div>
-              <hr />
-            </div>
-           
-            <div className="container">
-              <div className="col-md-12">
-                <div className="text-center">
-                  {/* <h1 className="text-muted">INVOICE</h1> */}
+                  </ul>
                 </div>
+                <div className="col-xl-3 float-end">
+                  {/* <a className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i className="fas fa-print text-primary" /> Print</a>
+                <a className="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i className="far fa-file-pdf text-danger" /> Export</a> */}
+                </div>
+                <hr />
               </div>
-            
+
+              <div className="container">
+                <div className="col-md-12">
+                  <div className="text-center">
+                    {/* <h1 className="text-muted">INVOICE</h1> */}
+                  </div>
+                </div>
+
                 <div className="row">
                   <div className="col-xl-8">
                     <ul className="list-unstyled">
@@ -127,75 +130,77 @@ function Invoice() {
                       <li className="text-muted"><i className="fas fa-phone" />{order.shippingDetails.mobile}</li>
                     </ul>
                   </div>
-                
-                </div>
-             
-              <div  className="row my-2 mx-1 justify-content-center">
-                <table className="table table-striped table-borderless">
-                  <thead style={{ backgroundColor: '#84B0CA' }} className="text-white">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Item</th>
-                      <th scope="col">Quantity</th>
-                      {/* <th scope="col">Unit Price</th> */}
-                      <th scope="col">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {order.cartItem.map((item, index) => (
-                    <tr  key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.productname}</td>
-                      <td>{item.quantity}</td>
-                      {/* <td>$200</td> */}
-                      <td>{item.price}</td>
-                    </tr>
-                   
-                     ))}
-                  </tbody>
-                </table>
-              </div>
 
-              <div className="row">
-                <div className="col-xl-8">
-                  {/* <p className="ms-3">Add additional notes and payment information</p> */}
                 </div>
-                <div className="col-xl-3">
-                  {/* <ul className="list-unstyled">
+
+                <div className="row my-2 mx-1 justify-content-center">
+                  <table className="table table-striped table-borderless">
+                    <thead style={{ backgroundColor: '#84B0CA' }} className="text-white">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        {/* <th scope="col">Unit Price</th> */}
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order.cartItem.map((item, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item.productname}</td>
+                          <td>{item.quantity}</td>
+                          {/* <td>$200</td> */}
+                          <td>{item.price}</td>
+                        </tr>
+
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="row">
+                  <div className="col-xl-8">
+                    {/* <p className="ms-3">Add additional notes and payment information</p> */}
+                  </div>
+                  <div className="col-xl-3">
+                    {/* <ul className="list-unstyled">
                     <li className="text-muted ms-3"><span className="text-black me-4">SubTotal</span>$1110</li>
                     <li className="text-muted ms-3 mt-2"><span className="text-black me-4">Tax(15%)</span>$111</li>
                   </ul> */}
-                  <p className="text-black float-start"><span className="text-black me-3"> Total Amount:</span><span style={{ color:"#ad1111",fontSize: 25 }}>₹{order.total}</span></p>
+                    <p className="text-black float-start"><span className="text-black me-3"> Total Amount:</span><span style={{ color: "#ad1111", fontSize: 25 }}>₹{order.total}</span></p>
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-xl-10">
+                    {/* <p>Thank you for your purchase</p> */}
+                  </div>
+                  <div className="col-xl-2">
+                    <button type="button" onClick={handleProceedClick} className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" > Proceed</button>
+                    <Modal isOpen={showModal} toggle={closeModal} className={Styles.modal}>
+                      <ModalHeader toggle={closeModal} className="text-right" >
+                      </ModalHeader>
+                      <ModalBody>
+                        <img src={gif} alt="Thank you for your purchase" style={{ width: "500px", height: "350px" }} />
+                        <h3 style={{ color: "#4b93a3", fontWeight: 'bold', marginLeft: "10px" }}>Thank you for your purchase..!</h3>
+                        <p>You will receive an order confirmation email with details of your order and a link to track its progress.
+                          All necessary information about the delivery, we sent to your email</p>
+                      </ModalBody>
+                      <ModalFooter className="justify-content-center">
+                        <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" onClick={handleorder}>
+                          View Order
+                        </button>
+                        <button style={{ marginLeft: "35px" }} className="ripple ripple-surface ripple-surface-light btn btn-primary " onClick={continueshopping}>
+                          Continue shopping
+                        </button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </div>
               </div>
-              <hr />
-              <div className="row">
-                <div className="col-xl-10">
-                  {/* <p>Thank you for your purchase</p> */}
-                </div>
-                <div className="col-xl-2">
-                  <button type="button" onClick={handleProceedClick} className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" > Proceed</button>
-                  <Modal isOpen={showModal} toggle={closeModal} className={Styles.modal}>
-                        <ModalHeader  toggle={closeModal} className="text-right" >                       
-                        </ModalHeader>
-                        <ModalBody>
-                        <img   src={gif} alt="Thank you for your purchase"  style={{width:"500px",height:"350px" }} />
-                          <h3 style={{ color: "#4b93a3",fontWeight: 'bold',marginLeft:"10px"}}>Thank you for your purchase..!</h3>
-                        </ModalBody>
-                        <ModalFooter  className="justify-content-center">
-                          <button  className="ripple ripple-surface ripple-surface-light btn btn-primary btn-primary" onClick={closeModal}>
-                            View Order
-                          </button>
-                          <button style={{ marginLeft:"35px" }} className="ripple ripple-surface ripple-surface-light btn btn-primary " onClick={continueshopping}>
-                            Continue shopping
-                          </button>
-                        </ModalFooter>
-                      </Modal>
-                </div>
-              </div>
+
             </div>
-            
-          </div>
           )}
         </div>
       </div>

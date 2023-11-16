@@ -216,6 +216,7 @@ function userProfile() {
                                         <form>
 
                                             <div className="form-group row">
+                                                
                                                 <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Name</label>
                                                 <div className="col-sm-10">
                                                     <input name="name" type="email" className="form-control" id="colFormLabel" placeholder="col-form-label" value={user.name}

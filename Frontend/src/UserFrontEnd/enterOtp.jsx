@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation, useNavigate } from "react-router-dom";
 import Timer from "UserFrontEnd/Actions/Timer"
+import { MDBInput } from 'mdb-react-ui-kit';
 
 function enterOTP() {
     const [otp, setOTP] = useState('')
@@ -124,23 +125,16 @@ function enterOTP() {
                                     <form>
                                         {/* 2 column grid layout with text inputs for the first and last names */}
                                         <div className="row">
-                                            {/* Email input */}
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="number"
-                                                    id="form3Example3"
-                                                    className="form-control"
-                                                    name='otp'
-                                                    value={otp}
-                                                    onChange={(e) => setOTP(e.target.value)}
-                                                />
-                                                <label
-                                                    className="form-label"
-                                                    htmlFor="form3Example3"
-                                                >
-                                                    OTP
-                                                </label>
+                                            <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-ellipsis-h fa-lg me-3 fa-fw" />
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <MDBInput id='form1' type='email' name='otp'
+                                                        value={otp}
+                                                        onChange={(e) => setOTP(e.target.value)} />
+                                                </div>
                                             </div>
+                                            {/* Email input */}
+
                                             <Timer initialTime={30} onTimeout={handleTimeout} />
                                             {/* Sign In button */}
                                             {timerExpired ? (

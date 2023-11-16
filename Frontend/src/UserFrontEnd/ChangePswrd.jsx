@@ -3,7 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import axios from "axios";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { MDBInput } from 'mdb-react-ui-kit';
 
 function UserLogin() {
     const [newPassword, setNewPassword] = useState('')
@@ -98,42 +98,26 @@ function UserLogin() {
                                     <h6>Type and confirm a secure new password for the Account</h6>
                             <br/>
                                     <form>
-                                        {/* 2 column grid layout with text inputs for the first and last names */}
+                                        
                                         <div className="row">
-                                            {/* Email input */}
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="password"
-                                                    id="form3Example3"
-                                                    className="form-control"
-                                                    name='newPassword'
-                                                    value={newPassword}
-                                                    onChange={(e) => setNewPassword(e.target.value)}
-                                                />
-                                                <label
-                                                    className="form-label"
-                                                    htmlFor="form3Example3"
-                                                >
-                                                    New Password
-                                                </label>
+                                        <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-lock  fa-lg me-3 fa-fw" />
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <MDBInput id='form1' type='password' name='newPassword'
+                                                        value={newPassword}
+                                                        onChange={(e) => setNewPassword(e.target.value)} />
+                                                </div>
                                             </div>
-                                            {/* Password input */}
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="password"
-                                                    id="form3Example4"
-                                                    className="form-control"
-                                                    name='confirmPassword'
-                                                    value={confirmPassword}
-                                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                                />
-                                                <label
-                                                    className="form-label"
-                                                    htmlFor="form3Example4"
-                                                >
-                                                    Confirm Password
-                                                </label>
+                                        <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-check fa-lg me-3 fa-fw" />
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <MDBInput id='form1' type='password' name='confirmPassword'
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)} />
+                                                </div>
                                             </div>
+
+                                      
                                             {/* Forgot Password link */}
                                             
                                             {/* Sign In button */}

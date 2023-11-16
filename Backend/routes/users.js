@@ -35,6 +35,7 @@ router.post("/resetPassword",otpController.resetPassword);
 //----------------Order--------------------//
 router.post("/addOrder",orderController.addOrder);
 router.get("/orderListById/:id",orderController.orderListById);
+router.get("/orderListByUserId/:id",orderController.orderListByUserId);
 router.get("/orderLists",orderController.orderLists);
 router.post('/orderStatus/:id',orderController.addOrderStatus)
 

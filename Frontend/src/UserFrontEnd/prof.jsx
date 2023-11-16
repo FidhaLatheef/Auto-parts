@@ -1,213 +1,132 @@
-import React, { useState, useEffect } from 'react';
-import Styles from '../css/style.module.css';
-import Header from 'UserFrontEnd/components/Header';
-import Footer from 'UserFrontEnd/components/Footer';
-import { Row } from 'react-bootstrap';
-import axios from 'axios';
-import HeroBg from 'assets/images/breadcrumb-bg.jpg';
-import { Link } from 'react-router-dom';
-import { Icon } from '@mui/material';
+import React from 'react';
+import { Toaster, toast } from 'react-hot-toast'
+import axios from "axios";
+import { useState } from "react";
+import { MDBInput } from 'mdb-react-ui-kit';
 
-function prof() {
-  const [categoryList, setCategoryList] = useState([]);
-  const [brandList, setBrandList] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(4);
-  useEffect(() => {
-    fetchProducts();
-    categoriesList();
-    brandsList();
-  }, []);
 
-  const categoriesList = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/user/categoryList');
-      setCategoryList(response.data.data);
-    } catch (error) {
-      console.log('Error fetching category list:', error);
+function ProductDetails() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [fieldRequired, setFieldRequired] = useState(false);
+
+
+  const handleForm = (e) => {
+    e.preventDefault();
+
+    if (email === '' || password === '') {
+      setFieldRequired(true);
+      toast.error("Please enter all fields");
+      return;
     }
-  };
 
-  const brandsList = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/user/brandList');
-      setBrandList(response.data.data);
-    } catch (error) {
-      console.log('Error fetching brand list:', error);
-    }
-  };
-  const fetchProducts = async () => {
+    const data = {
+      email: email,
+      password: password
+    };
+
     axios
-      .get('http://localhost:8000/user/productList')
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          window.location.href = 'authentication/sign-in';
+      .post('http://localhost:8000/user/Login', data)
+      .then(function (response) {
+
+        if (response.data.fieldRequired) {
+        } else {
+          localStorage.setItem('userToken', response.data.token);
+          localStorage.setItem('userProfile', JSON.stringify(response.data.userProfile));
+          window.location.href = '/UserHome'
         }
-      });
-  };
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.response && error.response.status === 400) {
+          toast.error("Please enter valid credentials")
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
+        }
 
-  const handleBrandChange = (event) => {
-    setSelectedBrand(event.target.value);
-  };
+      })
 
-  const handleResetFilter = () => {
-    setSelectedCategory('');
-    setSelectedBrand('');
-    setSearchQuery('');
-  };
 
-  const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
-  };
-
-  const handleAddToCart = (product) => {
-    const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const isProductInCart = existingCart.some((item) => item.id === product._id);
-
-    if (!isProductInCart) {
-      const cartItem = {
-        id: product._id,
-        productname: product.productName,
-        image: `http://localhost:8000/${product.images[0]}`,
-        price: product.price,
-        quantity: 1,
-      };
-
-      existingCart.push(cartItem);
-      localStorage.setItem('cart', JSON.stringify(existingCart));
-      alert('Product added to the cart !!');
-
-      window.location.href = '/cart';
-    } else {
-      alert('Product is already in the cart');
-    }
-  };
-
-  const handleAddToWishlist = (product) => {
-    const existingWish = JSON.parse(localStorage.getItem('wishlist')) || [];
-    const isProductInWish = existingWish.some((item) => item.id === product._id);
-
-    if (!isProductInWish) {
-      const wishlistItem = {
-        id: product._id,
-        productname: product.productName,
-        image: `http://localhost:8000/${product.images[0]}`,
-        price: product.price,
-        quantity: 1,
-      };
-
-      existingWish.push(wishlistItem);
-      localStorage.setItem('wishlist', JSON.stringify(existingWish));
-      alert('Product added to the wishlist !!');
-
-      window.location.href = '/wishlist';
-    } else {
-      alert('Product is already in the wishlist');
-    }
-  };
-
-  const filteredProducts = products
-    .filter((product) => {
-      if (selectedCategory && product.categoryName !== selectedCategory) {
-        return false;
-      }
-      if (selectedBrand && product.brandName !== selectedBrand) {
-        return false;
-      }
-      if (
-        searchQuery &&
-        !(
-          product.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      ) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(filteredProducts.length / productsPerPage); i++) {
-    pageNumbers.push(i);
   }
+
   return (
-    <div>
-      <section style={{ backgroundColor: '#eee' }}>
-        <div className="container py-5 mb-3">
-          <div className="row">
-            {currentProducts.map((product) => (
-              <div className="col-md-6 col-lg-4 mb-4" key={product._id}>
-                <Link to={`/productDetails/${product._id}`} key={product._id} className="col-lg-3">
-                  <div className="card">
-                    <img src={`http://localhost:8000/${product.images[0]}`} style={{ height: '280px' }} className="card-img-top" alt="Gaming Laptop" />
-                    <div className="card-body text-center" style={{ height: '280px', overflow: 'hidden' }}>
-                      <h5 style={{ height: '20px' }}>{product.productName}</h5>
-                      <h5 className="text-danger mb-3">₹{product.price}</h5>
-                      <p className="small " style={{ height: '50px', overflow: 'hidden' }}>
-                        <a href="#!" className="text-muted">
-                          {product.description}
-                        </a>
-                      </p>
-                      <div className="text-warning mb-3">
-                        <i className="fa fa-star" />
-                        <i className="fas fa-star" />
-                        <i className="fas fa-star" />
-                        <i className="fas fa-star" />
-                        <i className="fas fa-star-half-alt" />
-                      </div>
-                      <div className="d-flex justify-content-center gap-3 ">
-                        <a
-                          href="#"
-                          onClick={() => handleAddToCart(product)}
-                          className="ripple ripple-surface btn btn-primary btn-warning"
-                        >
-                          Add To Cart
-                        </a>
-                        <a href="#" 
-                        onClick={() => handleAddToWishlist(product)}
-                        className="ripple ripple-surface btn btn-primary btn-primary "
-                        >
-                          Add To Wishlist
-                        </a>
-                      </div>
+    <div >
+      <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+        <div className="container h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-lg-12 col-xl-11">
+              <div className="card text-black" style={{ borderRadius: 25 }}>
+                <div className="card-body p-md-5">
+                  <div className="row justify-content-center">
+                    <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                      <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                      <form className="mx-1 mx-md-4">
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-user fa-lg me-3 fa-fw" />
+                          <div className="form-outline flex-fill mb-0">
+                            <MDBInput label="name" id='form1' type='text' name="name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)} />
+                          </div>
+                        </div>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-phone fa-lg me-3 fa-fw" />
+                          <div className="form-outline flex-fill mb-0">
+                            <MDBInput label="mobile" id='form1' type='number' name="mobile"
+                              value={mobile}
+                              onChange={(e) => setName(e.target.value)} />
+                          </div>
+                        </div>
+
+
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-envelope fa-lg me-3 fa-fw" />
+                          <div className="form-outline flex-fill mb-0">
+                            <MDBInput label='email' id='form1' type='email' name='email'
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)} />
+                          </div>
+                        </div>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-lock fa-lg me-3 fa-fw" />
+                          <div className="form-outline flex-fill mb-0">
+                            <MDBInput label='password' id='form1' type='password' name='password'
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)} />
+                          </div>
+                        </div>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-picture-o fa-lg me-3 fa-fw" />
+                          <div className="form-outline flex-fill mb-0">
+                            <MDBInput name="image"
+                              onChange={(e) => setImage(e.target.files[0])}
+                              placeholder="Image" label='image' id='form1' type='file' />
+                          </div>
+                        </div>
+                        <div className="form-check d-flex justify-content-center mb-5">
+                          <input className="form-check-input me-2" type="checkbox" defaultValue id="form2Example3c" />
+                          <label className="form-check-label" htmlFor="form2Example3">
+                            I agree all statements in <a href="#!">Terms of service</a>
+                          </label>
+                        </div>
+                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button type="button" className="btn btn-primary btn-lg">Register</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" className="img-fluid" alt="Sample image" />
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
+
     </div>
-  )
+  );
 }
 
-export default prof
+export default ProductDetails;

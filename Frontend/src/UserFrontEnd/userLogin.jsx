@@ -2,6 +2,7 @@ import React from 'react';
 import { Toaster, toast } from 'react-hot-toast'
 import axios from "axios";
 import { useState } from "react";
+import { MDBInput } from 'mdb-react-ui-kit';
 
 function UserLogin() {
     const [email, setEmail] = useState('')
@@ -47,7 +48,7 @@ function UserLogin() {
     }
     return (
         <div>
-            <Toaster/>
+            <Toaster />
             {/* Section: Design Block */}
             <section className="text-center text-lg-start">
                 <style
@@ -66,7 +67,7 @@ function UserLogin() {
                 {/* Jumbotron */}
                 <div className="container py-4">
                     <div className="row g-0 align-items-center">
-                        <div className="col-lg-6 mb-5 mb-lg-0">
+                        <div className="col-lg-6 mb-5 mb-lg-0 mt-5">
                             <div
                                 className="card cascading-right"
                                 style={{
@@ -80,38 +81,22 @@ function UserLogin() {
                                         {/* 2 column grid layout with text inputs for the first and last names */}
                                         <div className="row">
                                             {/* Email input */}
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="email"
-                                                    id="form3Example3"
-                                                    className="form-control"
-                                                    name='email'
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                />
-                                                <label
-                                                    className="form-label"
-                                                    htmlFor="form3Example3"
-                                                >
-                                                    Email address
-                                                </label>
+                                            <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-envelope fa-lg me-3 fa-fw" />
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <MDBInput label='Email' id='form1' type='email' name='email'
+                                                        value={email}
+                                                       
+                                                        onChange={(e) => setEmail(e.target.value)} />
+                                                </div>
                                             </div>
-                                            {/* Password input */}
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="password"
-                                                    id="form3Example4"
-                                                    className="form-control"
-                                                    name='password'
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                />
-                                                <label
-                                                    className="form-label"
-                                                    htmlFor="form3Example4"
-                                                >
-                                                    Password
-                                                </label>
+                                            <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-lock fa-lg me-3 fa-fw" />
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <MDBInput label='Password' id='form1' type='password' name='password'
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)} />
+                                                </div>
                                             </div>
                                             {/* Forgot Password link */}
                                             <div className="mb-3">
