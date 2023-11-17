@@ -31,9 +31,9 @@ function data() {
     axios.get("http://localhost:8000/user/orderLists")
       .then((response) => {
         setOrder(response.data);
-        console.log("ggggggggg",response.data)
+        console.log("ggggggggg", response.data)
         const initialStatuses = response.data.map((order) => order.status);
-      setStatus(initialStatuses);
+        setStatus(initialStatuses);
       })
       .catch((error) => {
         if (error.response.status == "401") {
@@ -229,7 +229,7 @@ function data() {
                                       alt={item.productname}
                                     />
                                   </div>
-                                  <div className="col-3 text-center d-flex justify-content-center align-items-center">
+                                  <div className="col-2 text-center d-flex justify-content-center align-items-center">
                                     <p className="text-muted mb-0">{item.productname}</p>
                                   </div>
                                   <div className="col-2 text-center d-flex justify-content-center align-items-center">
@@ -238,10 +238,10 @@ function data() {
                                   <div className="col-2 text-center d-flex justify-content-center align-items-center">
                                     <p className="text-muted mb-0 small">₹ {item.price}</p>
                                   </div>
-                                  <div className="col-3 text-center d-flex justify-content-center align-items-center">
-                                  <p className="text-muted mb-0 small">Status: </p> <select
+                                  <div className="col-4  d-flex justify-content-between align-items-center">
+                                    <p className="text-muted mb-0 small">Status: </p> <select
                                       value={status[pr]}
-                                      style={{borderRadius:"30px"}}
+                                      style={{ borderRadius: "30px" }}
                                       onChange={(e) => handleStatusChange(item.id, e.target.value)}
                                     >
                                       <option value={item.status}>{item.status}</option>
@@ -252,17 +252,9 @@ function data() {
                                       <option value="Delivered">Delivered</option>
                                       <option value="Cancelled">Cancelled</option>
                                     </select>
-                                    <button
-                                      style={{ color: "Black",fontSize:"25px" }}
-                                      className="btn  bg-light  fs-ms"
-                                      onClick={() => handleStatusUpdate(item.id)}
-                                    >
-                                      <Icon>
-                                        <span className="material-symbols-outlined">
-                                        done_outline
-                                        </span>
-                                      </Icon>
-                                    </button>
+                                    <a onClick={() => handleStatusUpdate(item.id)} 
+                                    className="ripple ripple-surface btn btn-primary"> 
+                                    <i className="fa fa-check fa-lg" />  </a>
                                   </div>
                                 </div>
                               </div>
@@ -367,7 +359,7 @@ function data() {
                         <div
                           className="card-footer border-0 px-4 py-2"
                           style={{
-                            backgroundColor: "#636362",
+                            backgroundColor: "#294f99",
                             borderBottomLeftRadius: 10,
                             borderBottomRightRadius: 10,
                           }}

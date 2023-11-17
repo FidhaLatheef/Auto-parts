@@ -89,6 +89,8 @@ import ChangePswrd from "UserFrontEnd/ChangePswrd";
 import UserProfile from "UserFrontEnd/userProfile";
 import Prof from "UserFrontEnd/prof";
 import ViewOrder from "UserFrontEnd/viewOrder";
+import TrackOrder from "UserFrontEnd/trackOrder";
+import OrderSummary from "UserFrontEnd/orderSummary";
 
 
 const routes = [
@@ -469,6 +471,24 @@ const routes = [
     route: "/viewOrder",
     icon: <Shop size="12px" />,
     component: <ViewOrder />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "TrackOrder",
+    key: "TrackOrder",
+    route: "/trackOrder",
+    icon: <Shop size="12px" />,
+    component: <TrackOrder />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "OrderSummary",
+    key: "OrderSummary",
+    route: "/orderSummary/:id",
+    icon: <Shop size="12px" />,
+    component: <OrderSummary />,
     noCollapse: true,
   },
  

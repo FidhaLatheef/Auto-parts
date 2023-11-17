@@ -118,7 +118,7 @@ function Invoice() {
                       <li className="text-muted">{order.billingDetails.address1}, {order.billingDetails.address2}</li>
                       <li className="text-muted">{order.billingDetails.state}</li>
                       <li className="text-muted">{order.billingDetails.email}</li>
-                      <li className="text-muted"><i className="fas fa-phone" />{order.billingDetails.mobile}</li>
+                      <li className="text-muted"><i className="fas fa-phone" /> {order.billingDetails.mobile}</li>
                     </ul>
                   </div>
                   <div className="col-xl-4">
@@ -127,7 +127,7 @@ function Invoice() {
                       <li className="text-muted">{order.shippingDetails.address1}, {order.shippingDetails.address2}</li>
                       <li className="text-muted">{order.shippingDetails.state}</li>
                       <li className="text-muted">{order.shippingDetails.email}</li>
-                      <li className="text-muted"><i className="fas fa-phone" />{order.shippingDetails.mobile}</li>
+                      <li className="text-muted"><i className="fas fa-phone" /> {order.shippingDetails.mobile}</li>
                     </ul>
                   </div>
 

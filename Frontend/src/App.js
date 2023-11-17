@@ -71,11 +71,14 @@ export default function App() {
     pathname == "/prof" ||
     pathname == "/changePswrd" ||
     pathname == "/viewOrder" ||
+    pathname == "/trackOrder" ||
+    // pathname == "/orderSummary" ||
     pathname == "/UserLogin" ||
     pathname == "/userProfile" ||
     pathname == "/forgotPswrd" ||
     pathname == "/user/registration" ||
-    (pathname.search("productDetails")>-1)
+    (pathname.search("productDetails")>-1)||
+    (pathname.search("orderSummary")>-1)
   ) {
     template = "Front";
   } else {
