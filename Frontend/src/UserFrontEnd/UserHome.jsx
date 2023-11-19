@@ -99,7 +99,7 @@ function Home() {
                                 <h5>Online Appointment</h5>
                                 <p>Consectetur adipiscing elit incididunt ut labore et dolore magna aliqua. Risus commodo
                                     viverra maecenas.</p>
-                                <a href="#"><Icon><span className="material-symbols-outlined">arrow_right_alt</span></Icon></a>
+                                    <a href="#"><span className="fa fa-arrow-right"></span></a>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6">
@@ -108,7 +108,7 @@ function Home() {
                                 <h5>Best Services Prices</h5>
                                 <p>Consectetur adipiscing elit incididunt ut labore et dolore magna aliqua. Risus commodo
                                     viverra maecenas.</p>
-                                <a href="#"><Icon><span className="material-symbols-outlined">arrow_right_alt</span></Icon></a>
+                                    <a href="#"><span className="fa fa-arrow-right"></span></a>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6">
@@ -117,7 +117,7 @@ function Home() {
                                 <h5>The Wheel Balancing</h5>
                                 <p>Consectetur adipiscing elit incididunt ut labore et dolore magna aliqua. Risus commodo
                                     viverra maecenas.</p>
-                                <a href="#"><Icon><span className="material-symbols-outlined">arrow_right_alt</span></Icon></a>
+                                <a href="#"><span className="fa fa-arrow-right"></span></a>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6">
@@ -126,7 +126,7 @@ function Home() {
                                 <h5>Carzone Painting</h5>
                                 <p>Consectetur adipiscing elit incididunt ut labore et dolore magna aliqua. Risus commodo
                                     viverra maecenas.</p>
-                                <a href="#"><Icon><span className="material-symbols-outlined">arrow_right_alt</span></Icon></a>
+                                    <a href="#"><span className="fa fa-arrow-right"></span></a>
                             </div>
                         </div>
                     </Row>
